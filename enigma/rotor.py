@@ -1,10 +1,10 @@
 class Rotor:
-    def __init__(self, config: str, notch: str = None):
+    def __init__(self, pattern: str, notch: str = None):
         self.initial_position = ord("A")
         self.final_position = ord("Z")
         self.char_range = self.final_position - self.initial_position
 
-        self.config = config
+        self.pattern = pattern
         self.position = 0
         self.setting = 0
         self.notch = None
@@ -20,13 +20,13 @@ class Rotor:
 
     def encode_right_to_left(self, char: str):
         in_contact_index = self._get_contact_in(char)
-        pin_index = ord(self.config[in_contact_index]) - self.initial_position
+        pin_index = ord(self.pattern[in_contact_index]) - self.initial_position
         return self._get_pin_out(pin_index)
 
     def encode_left_to_right(self, char: str):
         in_contact_index = self._get_contact_in(char)
         contact_char = chr(in_contact_index + self.initial_position)
-        pin_index = self.config.index(contact_char)
+        pin_index = self.pattern.index(contact_char)
         return self._get_pin_out(pin_index)
 
     def rotate(self):
