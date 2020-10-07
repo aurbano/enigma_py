@@ -74,8 +74,3 @@ class Machine:
                 rotor.rotate()
             else:
                 should_next_rotor_rotate = rotor.is_on_notch()
-
-        # if self.rotors[index].should_rotate_next() and index > 0:
-        #     self._rotate_rotor(index - 1)
-
-        # self.rotors[index].rotate()
