@@ -1,17 +1,10 @@
 import unittest
 
-from enigma import *
+from enigma import PlugBoard, PlugLead
 
-class EnigmaTest(unittest.TestCase):
-    def test_plug_lead(self):
-        lead = PlugLead("AG")
-        
-        self.assertEqual(lead.encode("A"), "G")
-        self.assertEqual(lead.encode("G"), "A")
-        self.assertEqual(lead.encode("D"), "D")
-    
+class PlugBoardTest(unittest.TestCase):
     def test_plug_board(self):
-        plugboard = Plugboard()
+        plugboard = PlugBoard()
 
         plugboard.add(PlugLead("SZ"))
         plugboard.add(PlugLead("GT"))
