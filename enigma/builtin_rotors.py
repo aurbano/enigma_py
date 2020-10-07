@@ -2,8 +2,6 @@ from enum import Enum
 
 from .rotor import Rotor
 
-RotorName = Enum('RotorName', 'Beta Gamma I II III IV V A B C')
-
 # TODO this is not immutable!
 Rotors = {
     "Beta": lambda: Rotor("LEYJVCNIXWPBQMDRTAKZGFUHOS"),

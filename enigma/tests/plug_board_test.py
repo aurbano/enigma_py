@@ -1,10 +1,11 @@
 import unittest
 
-from enigma import PlugBoard, PlugLead
+from enigma import Plugboard, PlugLead
+
 
 class PlugBoardTest(unittest.TestCase):
     def test_plug_board(self):
-        plugboard = PlugBoard()
+        plugboard = Plugboard()
 
         plugboard.add(PlugLead("SZ"))
         plugboard.add(PlugLead("GT"))
@@ -13,6 +14,7 @@ class PlugBoardTest(unittest.TestCase):
 
         self.assertEqual(plugboard.encode("K"), "U")
         self.assertEqual(plugboard.encode("A"), "A")
+
 
 if __name__ == '__main__':
     unittest.main()

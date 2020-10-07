@@ -1,7 +1,7 @@
 from .plug_lead import PlugLead
 
 
-class PlugBoard:
+class Plugboard:
     def __init__(self):
         self.leads = []
         return

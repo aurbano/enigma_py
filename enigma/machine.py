@@ -1,6 +1,6 @@
 from typing import List
 from .rotor import Rotor
-from .plug_board import PlugBoard
+from .plug_board import Plugboard
 from .plug_lead import PlugLead
 
 
@@ -8,7 +8,7 @@ class Machine:
     def __init__(self, rotors: List[Rotor], reflector: Rotor):
         self.rotors = rotors
         self.reflector = reflector
-        self.plug_board = PlugBoard()
+        self.plug_board = Plugboard()
         return
 
     def set_rotor_settings(self, settings: List[int]):
@@ -30,44 +30,29 @@ class Machine:
         ret = ''
         for char in string:
             ret += self._encode_char(char)
-
-        print("-------")
-
         return ret
 
     def _encode_char(self, char: str):
         encoded_char = self.plug_board.encode(char)
 
-        print('ENCODE', encoded_char)
-
         # rotors LTR
         for index, rotor in enumerate(reversed(self.rotors)):
             actual_index = len(self.rotors) - index - 1
-            print("Rotor", index, "char", encoded_char)
 
             if index == 0:
                 self._rotate_rotor(actual_index)
 
             encoded_char = rotor.encode_right_to_left(encoded_char)
 
-        print("Reflector", encoded_char)
-
         encoded_char = self.reflector.encode_right_to_left(encoded_char)
-
-        print("Reflected", encoded_char)
 
         # rotors RTL
         for index, rotor in enumerate(self.rotors):
-            print("Rotor", index, "char", encoded_char)
             encoded_char = rotor.encode_left_to_right(encoded_char)
-
-        print("Encoded", encoded_char)
-        print("PlugBoard", self.plug_board.encode(encoded_char))
 
         return self.plug_board.encode(encoded_char)
 
     def _rotate_rotor(self, index: int):
-        print('rotate rotor', index)
         if index < 0 or index >= len(self.rotors):
             return
 

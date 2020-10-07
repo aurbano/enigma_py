@@ -19,6 +19,15 @@ class RotorTest(unittest.TestCase):
 
         self.assertEqual(rotor.current_position(), "B")
 
+    def test_notch_rotation(self):
+        rotor = Rotors["III"]()
+        rotor.set_position('U')
+
+        rotor.rotate()
+
+        self.assertEqual(rotor.current_position(), "V")
+        self.assertTrue(rotor.should_rotate_next())
+
     def test_notch(self):
         rotor = Rotors["III"]()
         rotor.set_position('V')
