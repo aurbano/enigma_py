@@ -1,7 +1,7 @@
 import unittest
 
 from enigma import Machine
-from enigma.builtin_rotors import RotorName, Rotors
+from enigma.builtin_rotors import Rotors
 
 
 class RotorTest(unittest.TestCase):
