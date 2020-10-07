@@ -28,35 +28,54 @@ class Machine:
 
     def encode(self, string: str):
         ret = ''
+        string = string.upper()
         for char in string:
             ret += self._encode_char(char)
         return ret
 
+    def print_state(self):
+        settings = ''
+        positions = ''
+        for rotor in self.rotors:
+            positions += rotor.current_position() + ' '
+            settings += chr(rotor.setting + ord("A") + 1) + ' '
+
+        print(settings, positions)
+
     def _encode_char(self, char: str):
+        if char < "A" or char > "Z":
+            return char
+
         encoded_char = self.plug_board.encode(char)
 
+        self._rotate_rotors()
+
         # rotors LTR
-        for index, rotor in enumerate(reversed(self.rotors)):
-            actual_index = len(self.rotors) - index - 1
-
-            if index == 0:
-                self._rotate_rotor(actual_index)
-
+        for rotor in reversed(self.rotors):
             encoded_char = rotor.encode_right_to_left(encoded_char)
 
+        # reflector
         encoded_char = self.reflector.encode_right_to_left(encoded_char)
 
         # rotors RTL
-        for index, rotor in enumerate(self.rotors):
+        for rotor in self.rotors:
             encoded_char = rotor.encode_left_to_right(encoded_char)
 
         return self.plug_board.encode(encoded_char)
 
-    def _rotate_rotor(self, index: int):
-        if index < 0 or index >= len(self.rotors):
-            return
+    def _rotate_rotors(self):
+        # Rotor 0 always turns
+        # Rotor 1 turns if rotor 0 is on its notch or if rotor 1 is on its notch
+        # Rotor 2 turns if rotor 1 is on its notch
+        should_next_rotor_rotate = False
+        for index, rotor in enumerate(reversed(self.rotors)):
+            if index == 0 or should_next_rotor_rotate or rotor.is_on_notch():
+                should_next_rotor_rotate = rotor.is_on_notch()
+                rotor.rotate()
+            else:
+                should_next_rotor_rotate = rotor.is_on_notch()
 
-        if self.rotors[index].should_rotate_next():
-            self._rotate_rotor(index - 1)
+        # if self.rotors[index].should_rotate_next() and index > 0:
+        #     self._rotate_rotor(index - 1)
 
-        self.rotors[index].rotate()
+        # self.rotors[index].rotate()

@@ -13,10 +13,12 @@ class Rotor:
             self.notch = ord(notch) - self.initial_position
 
     def set_position(self, position: str):
-        self.position = ord(position) - self.initial_position
+        self.position = self._ranged(
+            0, self.char_range, ord(position) - self.initial_position
+        )
 
     def set_setting(self, setting: int):
-        self.setting = max(0, min(self.char_range, setting - 1))
+        self.setting = self._ranged(0, self.char_range, setting - 1)
 
     def encode_right_to_left(self, char: str):
         in_contact_index = self._get_contact_in(char)
@@ -32,7 +34,7 @@ class Rotor:
     def rotate(self):
         self.position = (self.position + 1) % (self.char_range + 1)
 
-    def should_rotate_next(self):
+    def is_on_notch(self):
         if self.notch == None:
             return False
 
@@ -53,3 +55,6 @@ class Rotor:
 
     def _offset_out(self, char: int):
         return (char - self.position + self.setting) % (self.char_range + 1)
+
+    def _ranged(self, min_value, max_value, value):
+        return max(min_value, min(max_value, value))
