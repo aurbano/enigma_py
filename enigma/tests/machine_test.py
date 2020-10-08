@@ -226,6 +226,32 @@ class MachineTest(unittest.TestCase):
 
         self.assertEqual(machine.encode("BUPXWJCDPFASXBDHLBBIBSRNWCSZXQOLBNXYAXVHOGCUUIBCVMPUZYUUKHI"),
                          "CONGRATULATIONSONPRODUCINGYOURWORKINGENIGMAMACHINESIMULATOR")
+    
+    def test_rotation(self):
+        machine = Machine(
+            [Rotors["I"](), Rotors["II"](), Rotors["III"]()],
+            Rotors["A"]()
+        )
+
+        machine.set_rotor_positions(
+            ["A", "C", "U"]
+        )
+
+        self.assertEqual(machine._get_positions(), "ACU")
+        machine.encode("A")
+        self.assertEqual(machine._get_positions(), "ACV")
+        machine.encode("A")
+        self.assertEqual(machine._get_positions(), "ADW")
+        machine.encode("AAAAAAAAAAAAAAAAAAAAAAAA")
+        self.assertEqual(machine._get_positions(), "ADU")
+        machine.encode("A")
+        self.assertEqual(machine._get_positions(), "ADV")
+        machine.encode("A")
+        self.assertEqual(machine._get_positions(), "AEW")
+        machine.encode("A")
+        self.assertEqual(machine._get_positions(), "BFX")
+        machine.encode("A")
+        self.assertEqual(machine._get_positions(), "BFY")
 
 
 if __name__ == '__main__':

@@ -27,26 +27,11 @@ class Machine:
             self.set_plugboard_mapping(mapping)
 
     def encode(self, string: str):
-        print('')
-        print('INIT ENCODING')
-        self.print_state()
-
         ret = ''
         string = string.upper()
         for char in string:
             ret += self._encode_char(char)
         return ret
-
-    def print_state(self):
-        settings = ''
-        positions = ''
-        for rotor in self.rotors:
-            positions += rotor.get_position() + ' '
-            settings += rotor.get_setting() + ' '
-
-        print('-----')
-        print(settings, positions)
-        print('-----')
 
     def _encode_char(self, char: str):
         if char < "A" or char > "Z":
@@ -72,14 +57,31 @@ class Machine:
     def _rotate_rotors(self):
         # Rotor 0 always turns
         # Rotor 1 turns if rotor 0 is on its notch or if rotor 1 is on its notch
-        # Rotor 2 turns if rotor 1 is on its notch
+        # ...
+        # Rotor X turns if rotor X - 1 is on its notch or if rotor X is on its notch
         should_next_rotor_rotate = False
         for index, rotor in enumerate(reversed(self.rotors)):
-            if index == 0 or should_next_rotor_rotate or rotor.is_on_notch():
+            is_first_rotor = (index == 0)
+
+            if is_first_rotor:
+                should_next_rotor_rotate = rotor.is_on_notch()
+                rotor.rotate()
+                continue
+
+            if should_next_rotor_rotate or rotor.is_on_notch():
                 should_next_rotor_rotate = rotor.is_on_notch()
                 rotor.rotate()
             else:
-                should_next_rotor_rotate = rotor.is_on_notch()
-            
-            if not rotor.has_notch():
                 break
+    
+    def _get_positions(self):
+        positions = ''
+        for rotor in self.rotors:
+            positions += rotor.get_position()
+        return positions
+    
+    def _get_settings(self):
+        settings = ''
+        for rotor in self.rotors:
+            settings += rotor.get_setting()
+        return settings
