@@ -205,17 +205,39 @@ class MachineTest(unittest.TestCase):
             ["A", "D", "C"]
         )
 
-        self.assertEqual(machine._get_positions(), "ADC")
+        self.assertEqual(machine._get_positions(), "ADC")  # step: 1
         self.assertEqual(machine.encode("A"), "P")
-        self.assertEqual(machine._get_positions(), "ADD")
+        self.assertEqual(machine._get_positions(), "ADD")  # step: 1
         self.assertEqual(machine.encode("A"), "P")
-        self.assertEqual(machine._get_positions(), "ADE")
+        self.assertEqual(machine._get_positions(), "ADE")  # step: 1
         self.assertEqual(machine.encode("A"), "X")
-        self.assertEqual(machine._get_positions(), "AEF")
+        self.assertEqual(machine._get_positions(), "AEF")  # step: 1, 2
         self.assertEqual(machine.encode("A"), "O")
-        self.assertEqual(machine._get_positions(), "BFG")
+        self.assertEqual(machine._get_positions(), "BFG")  # double: 1, 2, 3
         self.assertEqual(machine.encode("A"), "M")
-        self.assertEqual(machine._get_positions(), "BFH")
+        self.assertEqual(machine._get_positions(), "BFH")  # step: 1
+
+    def test_single_steps_II_rotor(self):
+        machine = Machine(
+            [Rotors["II"](), Rotors["II"](), Rotors["II"]()],
+            Rotors["B"]()
+        )
+
+        machine.set_rotor_positions(
+            ["A", "A", "C"]
+        )
+
+        self.assertEqual(machine._get_positions(), "AAC")  # step: 1
+        self.assertEqual(machine.encode("A"), "P")
+        self.assertEqual(machine._get_positions(), "AAD")  # step: 1
+        self.assertEqual(machine.encode("A"), "K")
+        self.assertEqual(machine._get_positions(), "AAE")  # step: 1
+        self.assertEqual(machine.encode("A"), "T")
+        self.assertEqual(machine._get_positions(), "ABF")  # step: 1, 2
+        self.assertEqual(machine.encode("A"), "S")
+        self.assertEqual(machine._get_positions(), "ABG")  # step: 1
+        self.assertEqual(machine.encode("A"), "Y")
+        self.assertEqual(machine._get_positions(), "ABH")  # step: 1
 
     def test_sentence_1(self):
         machine = Machine(
@@ -353,8 +375,8 @@ class MachineTest(unittest.TestCase):
         self.assertEqual(machine.encode("A"), "T")
         self.assertEqual(machine._get_positions(), "ADW")
         self.assertEqual(
-            machine.encode("AAAAAAAAAAAAAAAAAAAAAAAA"),
-            "RILULFKGVTWFLSPYXFPYDUQJ"
+            machine.encode("AAAAA AAAAA AAAAA AAAAA AAAA"),
+            "RILUL FKGVT WFLSP YXFPY DUQJ"
         )
         self.assertEqual(machine._get_positions(), "ADU")
         self.assertEqual(machine.encode("A"), "Y")

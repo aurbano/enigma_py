@@ -37,9 +37,9 @@ class Machine:
         if char < "A" or char > "Z":
             return char
 
-        encoded_char = self.plug_board.encode(char)
-
         self._rotate_rotors()
+
+        encoded_char = self.plug_board.encode(char)
 
         # rotors LTR
         for rotor in reversed(self.rotors):
@@ -59,13 +59,18 @@ class Machine:
         should_next_rotor_rotate = False
         for index, rotor in enumerate(reversed(self.rotors)):
             is_first_rotor = (index == 0)
+            is_last_rotor = (index == len(self.rotors) - 1)
 
-            if is_first_rotor:
+            if is_first_rotor or should_next_rotor_rotate or (not is_last_rotor and rotor.is_on_notch()):
+                if not is_first_rotor:
+                    print('notch on first')
+
                 should_next_rotor_rotate = rotor.is_on_notch()
                 rotor.rotate()
-            elif should_next_rotor_rotate or rotor.is_on_notch():
-                should_next_rotor_rotate = rotor.is_on_notch()
-                rotor.rotate()
+
+                # this fixes the long sentence test
+                if not should_next_rotor_rotate and not rotor.has_notch():
+                    break
             else:
                 break
 
