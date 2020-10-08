@@ -16,4 +16,7 @@ Rotors = {
     "A": lambda: Rotor("EJMZALYXVBWFCRQUONTSPIKHGD"),
     "B": lambda: Rotor("YRUHQSLDPXNGOKMIEBFZCWVJAT"),
     "C": lambda: Rotor("FVPJIAOYEDRZXWGCTKUQSBNMHL"),
+    
+    "B-thin": lambda: Rotor("ENKQAUYWJICOPBLMDXZVFTHRGS"),
+    "C-thin": lambda: Rotor("RDOBJNTKVEHMLFCWZAXGYIPSUQ"),
 }

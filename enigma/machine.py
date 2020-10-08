@@ -27,6 +27,10 @@ class Machine:
             self.set_plugboard_mapping(mapping)
 
     def encode(self, string: str):
+        print('')
+        print('INIT ENCODING')
+        self.print_state()
+
         ret = ''
         string = string.upper()
         for char in string:
@@ -37,10 +41,12 @@ class Machine:
         settings = ''
         positions = ''
         for rotor in self.rotors:
-            positions += rotor.current_position() + ' '
-            settings += chr(rotor.setting + ord("A") + 1) + ' '
+            positions += rotor.get_position() + ' '
+            settings += rotor.get_setting() + ' '
 
+        print('-----')
         print(settings, positions)
+        print('-----')
 
     def _encode_char(self, char: str):
         if char < "A" or char > "Z":
@@ -74,3 +80,6 @@ class Machine:
                 rotor.rotate()
             else:
                 should_next_rotor_rotate = rotor.is_on_notch()
+            
+            if not rotor.has_notch():
+                break

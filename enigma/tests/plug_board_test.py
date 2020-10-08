@@ -4,6 +4,12 @@ from enigma import Plugboard, PlugLead
 
 
 class PlugBoardTest(unittest.TestCase):
+    def test_empty_plug_board(self):
+        plugboard = Plugboard()
+
+        self.assertEqual(plugboard.encode("K"), "K")
+        self.assertEqual(plugboard.encode("A"), "A")
+
     def test_plug_board(self):
         plugboard = Plugboard()
 

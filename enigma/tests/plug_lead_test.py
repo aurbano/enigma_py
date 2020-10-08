@@ -9,6 +9,7 @@ class PlugLeadTest(unittest.TestCase):
         self.assertEqual(lead.encode("A"), "G")
         self.assertEqual(lead.encode("G"), "A")
         self.assertEqual(lead.encode("D"), "D")
+        self.assertEqual(lead.encode("Z"), "Z")
 
 if __name__ == '__main__':
     unittest.main()
