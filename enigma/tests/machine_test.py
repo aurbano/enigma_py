@@ -371,6 +371,18 @@ class MachineTest(unittest.TestCase):
             "MTQON LBVCE JTXON UVZTG FWDYI OGKRT QSNEI DGFCL KGLSH CMGJG OKRQI MDFSM MNDLW RSVEJ OYJXD"
         )
 
+    def test_settings(self):
+        machine = Machine(
+            [Rotors["I"](), Rotors["II"](), Rotors["III"]()],
+            Rotors["B"]()
+        )
+
+        machine.set_rotor_settings(
+            [11, 15, 19]
+        )
+
+        self.assertEquals(machine._get_settings(), "KOS")
+
 
 if __name__ == '__main__':
     unittest.main()
