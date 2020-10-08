@@ -16,13 +16,13 @@ class Rotor:
         self.position = self._ranged(
             0, self.max_char_index, self._char_to_index(position)
         )
-    
+
     def get_position(self):
         return self._index_to_char(self.position)
 
     def set_setting(self, setting: int):
         self.setting = self._ranged(0, self.max_char_index, setting - 1)
-    
+
     def get_setting(self):
         return self._index_to_char(self.setting)
 
@@ -45,7 +45,7 @@ class Rotor:
 
     def is_on_notch(self):
         return self.has_notch() and self.position == self.notch
-    
+
     def _char_to_index(self, char: str):
         return ord(char) - self.initial_position
 
