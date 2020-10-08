@@ -5,7 +5,7 @@ from .plug_lead import PlugLead
 
 
 class Machine:
-    def __init__(self, rotors: List[Rotor], reflector: Rotor):
+    def __init__(self, rotors: List[Rotor], reflector: Rotor = None):
         self.rotors = rotors
         self.reflector = reflector
         self.plug_board = Plugboard()
@@ -46,7 +46,8 @@ class Machine:
             encoded_char = rotor.encode_right_to_left(encoded_char)
 
         # reflector
-        encoded_char = self.reflector.encode_right_to_left(encoded_char)
+        if self.reflector != None:
+            encoded_char = self.reflector.encode_right_to_left(encoded_char)
 
         # rotors RTL
         for rotor in self.rotors:
@@ -55,10 +56,6 @@ class Machine:
         return self.plug_board.encode(encoded_char)
 
     def _rotate_rotors(self):
-        # Rotor 0 always turns
-        # Rotor 1 turns if rotor 0 is on its notch or if rotor 1 is on its notch
-        # ...
-        # Rotor X turns if rotor X - 1 is on its notch or if rotor X is on its notch
         should_next_rotor_rotate = False
         for index, rotor in enumerate(reversed(self.rotors)):
             is_first_rotor = (index == 0)
@@ -66,20 +63,18 @@ class Machine:
             if is_first_rotor:
                 should_next_rotor_rotate = rotor.is_on_notch()
                 rotor.rotate()
-                continue
-
-            if should_next_rotor_rotate or rotor.is_on_notch():
+            elif should_next_rotor_rotate or rotor.is_on_notch():
                 should_next_rotor_rotate = rotor.is_on_notch()
                 rotor.rotate()
             else:
                 break
-    
+
     def _get_positions(self):
         positions = ''
         for rotor in self.rotors:
             positions += rotor.get_position()
         return positions
-    
+
     def _get_settings(self):
         settings = ''
         for rotor in self.rotors:

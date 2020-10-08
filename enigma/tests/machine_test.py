@@ -106,7 +106,7 @@ class MachineTest(unittest.TestCase):
         )
 
         self.assertEqual(machine.encode("H"), "Y")
-    
+
     def test_I_II_III_rC_071115_QEV(self):
         machine = Machine(
             [Rotors["I"](), Rotors["II"](), Rotors["III"]()],
@@ -120,7 +120,8 @@ class MachineTest(unittest.TestCase):
         )
 
         self.assertEqual(
-            machine.encode("ZZZZZ ZZZZZ ZZZZZ ZZZZZ ZZZZZ ZZZZZ ZZZZZ ZZZZZ ZZZZZ ZZZZZ ZZZZZ ZZZZZ ZZZZZ ZZZZZ ZZZZZ ZZZZZ ZZZZZ ZZZZZ"),
+            machine.encode(
+                "ZZZZZ ZZZZZ ZZZZZ ZZZZZ ZZZZZ ZZZZZ ZZZZZ ZZZZZ ZZZZZ ZZZZZ ZZZZZ ZZZZZ ZZZZZ ZZZZZ ZZZZZ ZZZZZ ZZZZZ ZZZZZ"),
             "MTMWF VPXNL XXFVD NROIN BRDDX VRUBE YFEEM AHGGJ QLNQH FEKSV EPUKV OBLYJ AVFSV MLSPE XBDVU XJUNO NJKIF VVPUI"
         )
 
@@ -137,7 +138,7 @@ class MachineTest(unittest.TestCase):
         )
 
         self.assertEqual(machine.encode("Z"), "V")
-    
+
     def test_Beta_I_III_IV_rBthin_01010101_AAAA(self):
         machine = Machine(
             [Rotors["Beta"](), Rotors["I"](), Rotors["III"](), Rotors["IV"]()],
@@ -151,7 +152,7 @@ class MachineTest(unittest.TestCase):
         )
 
         self.assertEqual(machine.encode("ALEJANDRO"), "ORXKMBHHN")
-    
+
     def test_Beta_I_III_IV_rBthin_01171201_AAAA(self):
         machine = Machine(
             [Rotors["Beta"](), Rotors["I"](), Rotors["III"](), Rotors["IV"]()],
@@ -194,6 +195,28 @@ class MachineTest(unittest.TestCase):
             "EQIBM GFJBW ZFCKP FMGBX QCIVI BBRNC OCJUV YDKMV JPFMD RMTGL WFOZL XGJEY YQPVP BWNCK VKLZT"
         )
 
+    def test_double_steps_II_rotor(self):
+        machine = Machine(
+            [Rotors["II"](), Rotors["II"](), Rotors["II"]()],
+            Rotors["B"]()
+        )
+
+        machine.set_rotor_positions(
+            ["A", "D", "C"]
+        )
+
+        self.assertEqual(machine._get_positions(), "ADC")
+        self.assertEqual(machine.encode("A"), "P")
+        self.assertEqual(machine._get_positions(), "ADD")
+        self.assertEqual(machine.encode("A"), "P")
+        self.assertEqual(machine._get_positions(), "ADE")
+        self.assertEqual(machine.encode("A"), "X")
+        self.assertEqual(machine._get_positions(), "AEF")
+        self.assertEqual(machine.encode("A"), "O")
+        self.assertEqual(machine._get_positions(), "BFG")
+        self.assertEqual(machine.encode("A"), "M")
+        self.assertEqual(machine._get_positions(), "BFH")
+
     def test_sentence_1(self):
         machine = Machine(
             [Rotors["I"](), Rotors["II"](), Rotors["III"]()],
@@ -224,13 +247,17 @@ class MachineTest(unittest.TestCase):
         )
         machine.set_plugboard_mappings("PC XZ FM QA ST NB HY OR EV IU")
 
-        self.assertEqual(machine.encode("BUPXWJCDPFASXBDHLBBIBSRNWCSZXQOLBNXYAXVHOGCUUIBCVMPUZYUUKHI"),
-                         "CONGRATULATIONSONPRODUCINGYOURWORKINGENIGMAMACHINESIMULATOR")
-    
+        self.assertEqual(
+            machine.encode(
+                "BUPXWJCDPFASXBDHLBBIBSRNWCSZXQOLBNXYAXVHOGCUUIBCVMPUZYUUKHI"
+            ),
+            "CONGRATULATIONSONPRODUCINGYOURWORKINGENIGMAMACHINESIMULATOR"
+        )
+
     def test_rotation(self):
         machine = Machine(
             [Rotors["I"](), Rotors["II"](), Rotors["III"]()],
-            Rotors["A"]()
+            Rotors["B"]()
         )
 
         machine.set_rotor_positions(
@@ -238,20 +265,111 @@ class MachineTest(unittest.TestCase):
         )
 
         self.assertEqual(machine._get_positions(), "ACU")
-        machine.encode("A")
+        self.assertEqual(machine.encode("A"), "G")
         self.assertEqual(machine._get_positions(), "ACV")
-        machine.encode("A")
+        self.assertEqual(machine.encode("A"), "O")
         self.assertEqual(machine._get_positions(), "ADW")
-        machine.encode("AAAAAAAAAAAAAAAAAAAAAAAA")
+        self.assertEqual(machine.encode(
+            "AAAAAAAAAAAAAAAAAAAAAAAA"), "TFSODBBZZLXLCYZXIFGWFDZE")
         self.assertEqual(machine._get_positions(), "ADU")
-        machine.encode("A")
+        self.assertEqual(machine.encode("A"), "E")
         self.assertEqual(machine._get_positions(), "ADV")
-        machine.encode("A")
+        self.assertEqual(machine.encode("A"), "Q")
         self.assertEqual(machine._get_positions(), "AEW")
-        machine.encode("A")
+        self.assertEqual(machine.encode("A"), "I")
         self.assertEqual(machine._get_positions(), "BFX")
-        machine.encode("A")
+        self.assertEqual(machine.encode("A"), "B")
         self.assertEqual(machine._get_positions(), "BFY")
+
+    def test_rotation_without_notches(self):
+        machine = Machine(
+            [Rotors["I"](), Rotors["II"](), Rotors["Beta"](), Rotors["III"]()],
+            Rotors["B"]()
+        )
+
+        machine.set_rotor_positions(
+            ["A", "A", "A", "U"]
+        )
+
+        self.assertEqual(machine._get_positions(), "AAAU")
+        machine.encode("A")
+        self.assertEqual(machine._get_positions(), "AAAV")
+        machine.encode("A")
+        self.assertEqual(machine._get_positions(), "AABW")
+
+        # Test that the Beta rotor will turn a full cycle and not increment the next rotor
+        # 4 steps to complete the current rotation of the 1st rotor
+        # then loop all 26 turns of the 1st rotor 25 times to complete a full cycle of the 2nd rotor
+        loop_count = 4 + 26 * 25
+
+        for _ in range(loop_count):
+            machine.encode("A")
+
+        self.assertEqual(machine._get_positions(), "AAAA")
+
+    def test_rotation_without_notches_with_settings(self):
+        machine = Machine(
+            [Rotors["I"](), Rotors["II"](), Rotors["Beta"](), Rotors["III"]()],
+            Rotors["B"]()
+        )
+
+        machine.set_rotor_settings([10, 10, 10, 10])
+        machine.set_rotor_positions(
+            ["A", "A", "A", "U"]
+        )
+
+        self.assertEqual(machine._get_positions(), "AAAU")
+        machine.encode("A")
+        self.assertEqual(machine._get_positions(), "AAAV")
+        machine.encode("A")
+        self.assertEqual(machine._get_positions(), "AABW")
+
+        # Test that the Beta rotor will turn a full cycle and not increment the next rotor
+        # 4 steps to complete the current rotation of the 1st rotor
+        # then loop all 26 turns of the 1st rotor 25 times to complete a full cycle of the 2nd rotor
+        loop_count = 4 + 26 * 25
+
+        for _ in range(loop_count):
+            machine.encode("A")
+
+        self.assertEqual(machine._get_positions(), "AAAA")
+
+    def test_rotation_with_settings(self):
+        machine = Machine(
+            [Rotors["I"](), Rotors["II"](), Rotors["III"]()],
+            Rotors["B"]()
+        )
+
+        machine.set_rotor_settings(
+            [11, 15, 19]
+        )
+        machine.set_rotor_positions(
+            ["A", "C", "U"]
+        )
+
+        self.assertEqual(machine._get_positions(), "ACU")
+        self.assertEqual(machine.encode("A"), "Z")
+        self.assertEqual(machine._get_positions(), "ACV")
+        self.assertEqual(machine.encode("A"), "T")
+        self.assertEqual(machine._get_positions(), "ADW")
+        self.assertEqual(
+            machine.encode("AAAAAAAAAAAAAAAAAAAAAAAA"),
+            "RILULFKGVTWFLSPYXFPYDUQJ"
+        )
+        self.assertEqual(machine._get_positions(), "ADU")
+        self.assertEqual(machine.encode("A"), "Y")
+        self.assertEqual(machine._get_positions(), "ADV")
+        self.assertEqual(machine.encode("A"), "V")
+        self.assertEqual(machine._get_positions(), "AEW")
+        self.assertEqual(machine.encode("A"), "S")
+        self.assertEqual(machine._get_positions(), "BFX")
+        self.assertEqual(machine.encode("A"), "E")
+        self.assertEqual(machine._get_positions(), "BFY")
+        self.assertEqual(
+            machine.encode(
+                "AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA"),
+            "MTQON LBVCE JTXON UVZTG FWDYI OGKRT QSNEI DGFCL KGLSH CMGJG OKRQI MDFSM MNDLW RSVEJ OYJXD"
+        )
 
 
 if __name__ == '__main__':
