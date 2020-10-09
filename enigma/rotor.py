@@ -15,10 +15,12 @@ class Rotor:
 
     def __init__(
         self,
+        name: str,
         pattern: str,
         notch: str = None,
         alphabet: str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     ):
+        self.name = name
         self.alphabet = alphabet
         self.max_char_index = len(self.alphabet) - 1
 

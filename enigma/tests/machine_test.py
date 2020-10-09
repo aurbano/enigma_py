@@ -30,6 +30,20 @@ class MachineTest(unittest.TestCase):
 
         self.assertEqual(machine.encode("ALEJANDRO"), "UPLDGCVNQ")
 
+    def test_I_II_III_rB_010101_AAZ_decoding(self):
+        machine = Machine(
+            [Rotors["I"](), Rotors["II"](), Rotors["III"]()],
+            Rotors["B"]()
+        )
+        machine.set_rotor_settings(
+            1, 1, 1
+        )
+        machine.set_rotor_positions(
+            "A", "A", "Z"
+        )
+
+        self.assertEqual(machine.encode("UPLDGCVNQ"), "ALEJANDRO")
+
     def test_I_II_III_rB_010101_AAZ_long(self):
         machine = Machine(
             [Rotors["I"](), Rotors["II"](), Rotors["III"]()],
