@@ -12,10 +12,10 @@ class MachineTest(unittest.TestCase):
             Rotors["B"]()
         )
         machine.set_rotor_settings(
-            [1, 1, 1]
+            1, 1, 1
         )
         machine.set_rotor_positions(
-            ["A", "A", "Z"]
+            "A", "A", "Z"
         )
 
         self.assertEqual(machine.encode("ALEJANDRO"), "UPLDGCVNQ")
@@ -26,10 +26,10 @@ class MachineTest(unittest.TestCase):
             Rotors["B"]()
         )
         machine.set_rotor_settings(
-            [1, 1, 1]
+            1, 1, 1
         )
         machine.set_rotor_positions(
-            ["A", "A", "Z"]
+            "A", "A", "Z"
         )
 
         self.maxDiff = None
@@ -41,10 +41,10 @@ class MachineTest(unittest.TestCase):
             Rotors["C"]()
         )
         machine.set_rotor_settings(
-            [10, 15, 5]
+            10, 15, 5
         )
         machine.set_rotor_positions(
-            ["A", "B", "C"]
+            "A", "B", "C"
         )
 
         self.maxDiff = None
@@ -56,10 +56,10 @@ class MachineTest(unittest.TestCase):
             Rotors["C"]()
         )
         machine.set_rotor_settings(
-            [11, 15, 19]
+            11, 15, 19
         )
         machine.set_rotor_positions(
-            ["E", "V", "Z"]
+            "E", "V", "Z"
         )
 
         self.maxDiff = None
@@ -71,10 +71,10 @@ class MachineTest(unittest.TestCase):
             Rotors["B"]()
         )
         machine.set_rotor_settings(
-            [1, 1, 1]
+            1, 1, 1
         )
         machine.set_rotor_positions(
-            ["A", "A", "A"]
+            "A", "A", "A"
         )
 
         self.assertEqual(machine.encode("ALEJANDRO"), "BECZOEFTM")
@@ -85,10 +85,10 @@ class MachineTest(unittest.TestCase):
             Rotors["B"]()
         )
         machine.set_rotor_settings(
-            [1, 1, 1]
+            1, 1, 1
         )
         machine.set_rotor_positions(
-            ["Q", "E", "V"]
+            "Q", "E", "V"
         )
 
         self.assertEqual(machine.encode("ALEJANDRO"), "LVNAGPPQY")
@@ -99,10 +99,10 @@ class MachineTest(unittest.TestCase):
             Rotors["B"]()
         )
         machine.set_rotor_settings(
-            [14, 9, 24]
+            14, 9, 24
         )
         machine.set_rotor_positions(
-            ["A", "A", "A"]
+            "A", "A", "A"
         )
 
         self.assertEqual(machine.encode("H"), "Y")
@@ -113,10 +113,10 @@ class MachineTest(unittest.TestCase):
             Rotors["C"]()
         )
         machine.set_rotor_settings(
-            [7, 11, 15]
+            7, 11, 15
         )
         machine.set_rotor_positions(
-            ["Q", "E", "V"]
+            "Q", "E", "V"
         )
 
         self.assertEqual(
@@ -131,10 +131,10 @@ class MachineTest(unittest.TestCase):
             Rotors["C"]()
         )
         machine.set_rotor_settings(
-            [7, 11, 15, 19]
+            7, 11, 15, 19
         )
         machine.set_rotor_positions(
-            ["Q", "E", "V", "Z"]
+            "Q", "E", "V", "Z"
         )
 
         self.assertEqual(machine.encode("Z"), "V")
@@ -146,10 +146,10 @@ class MachineTest(unittest.TestCase):
             Rotors["B-thin"]()
         )
         machine.set_rotor_settings(
-            [1, 1, 1, 1]
+            1, 1, 1, 1
         )
         machine.set_rotor_positions(
-            ["A", "A", "A", "A"]
+            "A", "A", "A", "A"
         )
 
         self.assertEqual(machine.encode("ALEJANDRO"), "ORXKMBHHN")
@@ -160,10 +160,10 @@ class MachineTest(unittest.TestCase):
             Rotors["B-thin"]()
         )
         machine.set_rotor_settings(
-            [1, 17, 12, 1]
+            1, 17, 12, 1
         )
         machine.set_rotor_positions(
-            ["A", "A", "A", "A"]
+            "A", "A", "A", "A"
         )
 
         self.assertEqual(machine.encode("ALEJANDRO"), "RTVHLSWJH")
@@ -174,10 +174,10 @@ class MachineTest(unittest.TestCase):
             Rotors["B"]()
         )
         machine.set_rotor_settings(
-            [7, 11, 15]
+            7, 11, 15
         )
         machine.set_rotor_positions(
-            ["Q", "E", "V"]
+            "Q", "E", "V"
         )
 
         self.assertEqual(machine.encode("ALEJANDRO"), "IBVFUMNND")
@@ -188,7 +188,7 @@ class MachineTest(unittest.TestCase):
             Rotors["B"]()
         )
         machine.set_rotor_positions(
-            ["A", "D", "U"]
+            "A", "D", "U"
         )
 
         self.assertEqual(
@@ -203,7 +203,7 @@ class MachineTest(unittest.TestCase):
         )
 
         machine.set_rotor_positions(
-            ["A", "D", "C"]
+            "A", "D", "C"
         )
 
         self.assertEqual(machine._get_positions(), "ADC")  # step: 1
@@ -225,7 +225,7 @@ class MachineTest(unittest.TestCase):
         )
 
         machine.set_rotor_positions(
-            ["A", "A", "C"]
+            "A", "A", "C"
         )
 
         self.assertEqual(machine._get_positions(), "AAC")  # step: 1
@@ -247,10 +247,10 @@ class MachineTest(unittest.TestCase):
         )
 
         machine.set_rotor_settings(
-            [1, 1, 1]
+            1, 1, 1
         )
         machine.set_rotor_positions(
-            ["A", "A", "Z"]
+            "A", "A", "Z"
         )
         machine.set_plugboard_mappings("HL MO AJ CX BZ SR NI YW DG PK")
 
@@ -263,10 +263,10 @@ class MachineTest(unittest.TestCase):
         )
 
         machine.set_rotor_settings(
-            [18, 24, 3, 5]
+            18, 24, 3, 5
         )
         machine.set_rotor_positions(
-            ["E", "Z", "G", "P"]
+            "E", "Z", "G", "P"
         )
         machine.set_plugboard_mappings("PC XZ FM QA ST NB HY OR EV IU")
 
@@ -284,7 +284,7 @@ class MachineTest(unittest.TestCase):
         )
 
         machine.set_rotor_positions(
-            ["A", "C", "U"]
+            "A", "C", "U"
         )
 
         self.assertEqual(machine._get_positions(), "ACU")
@@ -311,7 +311,7 @@ class MachineTest(unittest.TestCase):
         )
 
         machine.set_rotor_positions(
-            ["A", "A", "A", "U"]
+            "A", "A", "A", "U"
         )
 
         self.assertEqual(machine._get_positions(), "AAAU")
@@ -336,9 +336,9 @@ class MachineTest(unittest.TestCase):
             Rotors["B"]()
         )
 
-        machine.set_rotor_settings([10, 10, 10, 10])
+        machine.set_rotor_settings(10, 10, 10, 10)
         machine.set_rotor_positions(
-            ["A", "A", "A", "U"]
+            "A", "A", "A", "U"
         )
 
         self.assertEqual(machine._get_positions(), "AAAU")
@@ -364,10 +364,10 @@ class MachineTest(unittest.TestCase):
         )
 
         machine.set_rotor_settings(
-            [11, 15, 19]
+            11, 15, 19
         )
         machine.set_rotor_positions(
-            ["A", "C", "U"]
+            "A", "C", "U"
         )
 
         self.assertEqual(machine._get_positions(), "ACU")
@@ -400,11 +400,53 @@ class MachineTest(unittest.TestCase):
             Rotors["B"]()
         )
 
-        machine.set_rotor_settings(
-            [11, 15, 19]
+        machine.set_rotor_settings(11, 15, 19)
+        self.assertEquals(machine._get_settings(), "KOS")
+
+    def test_settings_too_many(self):
+        machine = Machine(
+            [Rotors["I"](), Rotors["II"](), Rotors["III"]()],
+            Rotors["B"]()
         )
 
+        machine.set_rotor_settings(11, 15, 19, 21, 34)
         self.assertEquals(machine._get_settings(), "KOS")
+
+    def test_settings_too_few(self):
+        machine = Machine(
+            [Rotors["I"](), Rotors["II"](), Rotors["III"]()],
+            Rotors["B"]()
+        )
+
+        machine.set_rotor_settings(11, 15)
+        self.assertEquals(machine._get_settings(), "KOA")
+
+    def test_positions(self):
+        machine = Machine(
+            [Rotors["I"](), Rotors["II"](), Rotors["III"]()],
+            Rotors["B"]()
+        )
+
+        machine.set_rotor_positions("R", "T", "W")
+        self.assertEquals(machine._get_positions(), "RTW")
+
+    def test_positions_too_many(self):
+        machine = Machine(
+            [Rotors["I"](), Rotors["II"](), Rotors["III"]()],
+            Rotors["B"]()
+        )
+
+        machine.set_rotor_positions("R", "T", "W", "A", "B")
+        self.assertEquals(machine._get_positions(), "RTW")
+
+    def test_positions_too_few(self):
+        machine = Machine(
+            [Rotors["I"](), Rotors["II"](), Rotors["III"]()],
+            Rotors["B"]()
+        )
+
+        machine.set_rotor_positions("R", "T")
+        self.assertEquals(machine._get_positions(), "RTA")
 
 
 if __name__ == '__main__':

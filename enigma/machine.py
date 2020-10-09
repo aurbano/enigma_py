@@ -9,15 +9,18 @@ class Machine:
         self.rotors = rotors
         self.reflector = reflector
         self.plug_board = Plugboard()
+        self.last_turning_rotor = 3
         return
 
-    def set_rotor_settings(self, settings: List[int]):
-        for index, setting in enumerate(settings):
-            self.rotors[index].set_setting(setting)
+    def set_rotor_settings(self, *settings: int):
+        settings_in_range = min(len(self.rotors), len(settings))
+        for i in range(settings_in_range):
+            self.rotors[i].set_setting(settings[i])
 
-    def set_rotor_positions(self, positions: List[str]):
-        for index, position in enumerate(positions):
-            self.rotors[index].set_position(position)
+    def set_rotor_positions(self, *positions: str):
+        positions_in_range = min(len(self.rotors), len(positions))
+        for i in range(positions_in_range):
+            self.rotors[i].set_position(positions[i])
 
     def set_plugboard_mapping(self, mapping: str):
         self.plug_board.add(PlugLead(mapping))
@@ -61,7 +64,7 @@ class Machine:
             is_first_rotor = (index == 0)
             is_last_rotor = (index == len(self.rotors) - 1)
 
-            if is_last_rotor and len(self.rotors) > 3:
+            if is_last_rotor and len(self.rotors) > self.last_turning_rotor:
                 break
 
             if is_first_rotor or should_next_rotor_rotate or (not is_last_rotor and rotor.is_on_notch()):
