@@ -1,0 +1,208 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>enigma.rotor &#8212; Enigma.py 1.0.0 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="enigma.plug_board" href="enigma.plug_board.html" />
+    <link rel="prev" title="enigma.machine" href="enigma.machine.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-enigma.rotor">
+<span id="enigma-rotor"></span><h1>enigma.rotor<a class="headerlink" href="#module-enigma.rotor" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="enigma.rotor.Rotor">
+<em class="property">class </em><code class="sig-prename descclassname">enigma.rotor.</code><code class="sig-name descname">Rotor</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pattern</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">notch</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">alphabet</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'ABCDEFGHIJKLMNOPQRSTUVWXYZ'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#enigma.rotor.Rotor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create an Enigma Machine Rotor</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pattern</strong> – The rotor pattern specified as a string</p></li>
+<li><p><strong>notch</strong> – Notches for this rotor, specified as a string
+(if there are multiple characters in the string, the rotor will have
+multiple notches)
+None or an empty string can also be passed if this rotor shouldn’t
+have a notch.</p></li>
+<li><p><strong>alphabet</strong> – Input alphabet for this rotor. For standard enigma
+machine rotors this is simply the
+roman alphabet, however custom rotors can be easily created supporting
+additional characters.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="enigma.rotor.Rotor.encode_left_to_right">
+<code class="sig-name descname">encode_left_to_right</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">char</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="headerlink" href="#enigma.rotor.Rotor.encode_left_to_right" title="Permalink to this definition">¶</a></dt>
+<dd><p>Encode a character left-to-right through this rotor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>char</strong> – Character to be encoded</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="enigma.rotor.Rotor.encode_right_to_left">
+<code class="sig-name descname">encode_right_to_left</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">char</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="headerlink" href="#enigma.rotor.Rotor.encode_right_to_left" title="Permalink to this definition">¶</a></dt>
+<dd><p>Encode a character right-to-left through this rotor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>char</strong> – Character to be encoded</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="enigma.rotor.Rotor.get_position">
+<code class="sig-name descname">get_position</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#enigma.rotor.Rotor.get_position" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the current position for this rotor</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="enigma.rotor.Rotor.get_setting">
+<code class="sig-name descname">get_setting</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#enigma.rotor.Rotor.get_setting" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get initial setting for this rotor</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="enigma.rotor.Rotor.has_notch">
+<code class="sig-name descname">has_notch</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#enigma.rotor.Rotor.has_notch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if this rotor has any notches</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="enigma.rotor.Rotor.is_on_notch">
+<code class="sig-name descname">is_on_notch</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#enigma.rotor.Rotor.is_on_notch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if the current position is on a notch</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="enigma.rotor.Rotor.rotate">
+<code class="sig-name descname">rotate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#enigma.rotor.Rotor.rotate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Trigger a rotation of this rotor. It will wrap around if it reaches
+the last position available</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="enigma.rotor.Rotor.set_position">
+<code class="sig-name descname">set_position</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">position</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="headerlink" href="#enigma.rotor.Rotor.set_position" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set initial position for this rotor</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>position</strong> – Initial position for the rotor, as a character</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="enigma.rotor.Rotor.set_setting">
+<code class="sig-name descname">set_setting</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">setting</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span><a class="headerlink" href="#enigma.rotor.Rotor.set_setting" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set initial setting for this rotor</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>setting</strong> – Initial setting for the rotor, as an integer</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">Enigma.py</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="enigma.machine.html">enigma.machine</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">enigma.rotor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="enigma.plug_board.html">enigma.plug_board</a></li>
+<li class="toctree-l1"><a class="reference internal" href="enigma.plug_lead.html">enigma.plug_lead</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="enigma.machine.html" title="previous chapter">enigma.machine</a></li>
+      <li>Next: <a href="enigma.plug_board.html" title="next chapter">enigma.plug_board</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Alejandro U. Alvarez.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.1.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/_autosummary/enigma.rotor.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
