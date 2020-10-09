@@ -8,6 +8,14 @@ from enigma.tests.data.sample import sample_long_input, sample_a
 
 
 class MachineTest(unittest.TestCase):
+    def test_I_II_III_rA_010101_AAA(self):
+        machine = Machine(
+            [Rotors["I"](), Rotors["II"](), Rotors["III"]()],
+            Rotors["A"]()
+        )
+
+        self.assertEqual(machine.encode("ENIGMA MACHINE"), "BYEJNJ RSRWHTF")
+
     def test_I_II_III_rB_010101_AAZ(self):
         machine = Machine(
             [Rotors["I"](), Rotors["II"](), Rotors["III"]()],
