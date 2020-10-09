@@ -12,7 +12,7 @@ else:
         long_description = f.read()
 
 version = {}
-with open(os.path.join(_here, 'src', 'version.py')) as f:
+with open(os.path.join(_here, 'enigma', 'version.py')) as f:
     exec(f.read(), version)
 
 setup(
