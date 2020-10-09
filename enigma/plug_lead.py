@@ -2,7 +2,8 @@ class PlugLead:
     """PlugLead
     Creates a new plug lead for an Enigma machine
 
-    :param mapping: Character mapping for this lead, specified as a string with two characters
+    :param mapping: Character mapping for this lead, specified as a string
+        with two characters
     """
 
     def __init__(self, mapping: str):
@@ -24,7 +25,8 @@ class PlugLead:
 
     def encode(self, character: str):
         """
-        Encode a character using this lead. If it's not actually setup to convert this character it just returns it unchanged
+        Encode a character using this lead. If it's not actually setup to
+        convert this character it just returns it unchanged
         """
         if len(character) > 1:
             raise ValueError('You can only encode single characters')

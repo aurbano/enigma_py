@@ -7,8 +7,10 @@ from .plug_lead import PlugLead
 from .plug_board import Plugboard
 
 __all__ = [
+    '__version__',
     'Rotors',
     'Machine',
+    'Rotor',
     'PlugLead',
     'Plugboard',
 ]

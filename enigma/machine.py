@@ -10,8 +10,9 @@ class Machine:
 
     :param rotors: A list of Rotor objects
 
-    :param reflector: A rotor to be used as a reflector. Optional, if not specified the machine
-        will simply do a right-to-left encoding and then left-to-right directly.
+    :param reflector: A rotor to be used as a reflector. Optional, if not
+        specified the machine will simply do a right-to-left encoding and
+        then left-to-right directly.
     """
 
     def __init__(self, rotors: List[Rotor], reflector: Rotor = None):
@@ -25,8 +26,10 @@ class Machine:
         """
         Set initial settings for each rotor
 
-        :param settings: Pass each setting as an argument. They will be applied to the rotors in the order supplied (left to right)
-            Settings must be passed as integers. Parameters outside the alphabet range will be capped.
+        :param settings: Pass each setting as an argument. They will be
+            applied to the rotors in the order supplied (left to right)
+            Settings must be passed as integers. Parameters outside the
+            alphabet range will be capped.
         """
         settings_in_range = min(len(self.rotors), len(settings))
         for i in range(settings_in_range):
@@ -36,8 +39,10 @@ class Machine:
         """
         Set initial positions for each rotor
 
-        :param positions: Pass each position as an argument. They will be applied to the rotors in the order supplied (left to right)
-            Positions must be passed as characters. Parameters outside the alphabet range will be capped.
+        :param positions: Pass each position as an argument. They will be
+            applied to the rotors in the order supplied (left to right)
+            Positions must be passed as characters. Parameters outside
+            the alphabet range will be capped.
         """
         positions_in_range = min(len(self.rotors), len(positions))
         for i in range(positions_in_range):
@@ -55,7 +60,8 @@ class Machine:
         """
         Add several PlugBoard leads
 
-        :param mapping: Must be a string consisting of character pairs separated by spaces. i.e. "AB CD EF"
+        :param mapping: Must be a string consisting of character pairs
+            separated by spaces. i.e. "AB CD EF"
         """
         for mapping in mappings.split():
             self.set_plugboard_mapping(mapping)
@@ -64,7 +70,8 @@ class Machine:
         """
         Encode a string using the Enigma machine
 
-        :param string: String to be encoded. Unknown characters will be preserved in the output.
+        :param string: String to be encoded. Unknown characters will be
+            preserved in the output.
         """
         ret = ''
         string = string.upper()
@@ -90,7 +97,7 @@ class Machine:
             encoded_char = rotor.encode_right_to_left(encoded_char)
 
         # reflector
-        if self.reflector != None:
+        if self.reflector is not None:
             encoded_char = self.reflector.encode_right_to_left(encoded_char)
 
         # rotors RTL
@@ -101,8 +108,8 @@ class Machine:
 
     def _rotate_rotors(self):
         """
-        Trigger a rotation of the rotors, starting by turning the right-most rotor. This should be called
-        once for every keypress, before encoding.
+        Trigger a rotation of the rotors, starting by turning the right-most
+        rotor. This should be called once for every keypress, before encoding.
         """
         should_next_rotor_rotate = False
         for index, rotor in enumerate(reversed(self.rotors)):
@@ -112,7 +119,9 @@ class Machine:
             if is_last_rotor and len(self.rotors) > self.last_turning_rotor:
                 break
 
-            if is_first_rotor or should_next_rotor_rotate or (not is_last_rotor and rotor.is_on_notch()):
+            if is_first_rotor or should_next_rotor_rotate or (
+                not is_last_rotor and rotor.is_on_notch()
+            ):
                 should_next_rotor_rotate = rotor.is_on_notch()
                 rotor.rotate()
 

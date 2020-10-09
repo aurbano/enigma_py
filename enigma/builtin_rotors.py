@@ -1,5 +1,3 @@
-from enum import Enum
-
 from .rotor import Rotor
 
 # TODO this is not immutable!
@@ -16,7 +14,7 @@ Rotors = {
     "A": lambda: Rotor("EJMZALYXVBWFCRQUONTSPIKHGD"),
     "B": lambda: Rotor("YRUHQSLDPXNGOKMIEBFZCWVJAT"),
     "C": lambda: Rotor("FVPJIAOYEDRZXWGCTKUQSBNMHL"),
-    
+
     "B-thin": lambda: Rotor("ENKQAUYWJICOPBLMDXZVFTHRGS"),
     "C-thin": lambda: Rotor("RDOBJNTKVEHMLFCWZAXGYIPSUQ"),
 }

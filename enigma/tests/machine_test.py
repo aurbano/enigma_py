@@ -1,3 +1,5 @@
+# flake8: noqa
+
 import unittest
 
 from enigma import Machine

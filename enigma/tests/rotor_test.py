@@ -1,6 +1,6 @@
+# flake8: noqa
 import unittest
 
-from enigma import Machine
 from enigma.builtin_rotors import Rotors
 
 
@@ -54,7 +54,7 @@ class RotorTest(unittest.TestCase):
         rotor.rotate()
 
         self.assertEqual(rotor.get_position(), "B")
-    
+
     def test_rotation_wrapping(self):
         rotor = Rotors["I"]()
         rotor.set_position('Z')
@@ -68,7 +68,7 @@ class RotorTest(unittest.TestCase):
         rotor.set_position('V')
 
         self.assertTrue(rotor.is_on_notch())
-    
+
     def test_notch_rotation(self):
         rotor = Rotors["III"]()
         rotor.set_position('U')
