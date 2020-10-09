@@ -16,6 +16,12 @@ class Codebreaker:
         self.possible_settings = []
         self.possible_positions = []
         self.possible_plugboards = []
+    
+    def reset_rotors(self):
+        self.possible_rotors = []
+    
+    def reset_reflector(self):
+        self.possible_reflectors = []
 
     def add_known_word(self, known_word: str):
         self.known_words_in_output.append(known_word)

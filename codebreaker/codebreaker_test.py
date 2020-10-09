@@ -1,6 +1,7 @@
 # flake8: noqa
 
 from enigma.builtin_rotors import Rotors
+from enigma.rotor import Rotor
 import unittest
 import itertools
 import string
@@ -118,9 +119,9 @@ class CodebreakerTest(unittest.TestCase):
                 [Rotors[rotor]() for rotor in rotors]
             )
 
-        codebreaker.add_possible_reflector(Rotors["A"]())
-        codebreaker.add_possible_reflector(Rotors["B"]())
         codebreaker.add_possible_reflector(Rotors["C"]())
+        codebreaker.add_possible_reflector(Rotors["B"]())
+        codebreaker.add_possible_reflector(Rotors["A"]())
 
         possible_settings = list(filter(
             lambda i: i <= 26,
@@ -213,28 +214,40 @@ class CodebreakerTest(unittest.TestCase):
             [Rotors["V"](), Rotors["II"](), Rotors["IV"]()]
         )
 
+        codebreaker.add_possible_settings([6, 18, 7])
+        codebreaker.add_possible_positions(["A", "J", "L"])
+        codebreaker.add_possible_plugboard("UG IE PO NX WT")
+
         # Non standard reflector goes here
         # need to generate variations of rotors A, B, C
         rotor_A = Rotors["A"]().pattern
         rotor_B = Rotors["B"]().pattern
         rotor_C = Rotors["C"]().pattern
 
-        variations_rotor_A = rotor_variations(rotor_A, 4)
-        variations_rotor_B = rotor_variations(rotor_B, 4)
-        variations_rotor_C = rotor_variations(rotor_C, 4)
+        variations = {
+            "A": rotor_variations(rotor_A, 4),
+            "B": rotor_variations(rotor_B, 4),
+            "C": rotor_variations(rotor_C, 4),
+        }
+        rotors = ["A", "B", "C"]
+        decoded = None
 
-        # TODO Test each rotor
-        for rotor in variations_rotor_A:
-            codebreaker.add_possible_rotors()
+        for rotor_name in rotors:
+            for variation in variations[rotor_name]:
+                current_rotor = rotor_name
+                codebreaker.reset_reflector()
+                codebreaker.add_possible_reflector(Rotor(rotor_name, variation))
 
-        codebreaker.add_possible_reflector(Rotors["A"]())
-        codebreaker.add_possible_settings([6, 18, 7])
-        codebreaker.add_possible_positions(["A", "J", "L"])
-        codebreaker.add_possible_plugboard("UG IE PO NX WT")
+                try:
+                    decoded = codebreaker.decode()
+                    break
+                except:
+                    continue
 
-        decoded = codebreaker.decode()
+        if decoded is None:
+            raise ValueError("Unable to decode message")
 
-        print(decoded)
+        print(current_rotor, decoded)
 
         # self.assertEquals(
         #     decoded['msg'],
