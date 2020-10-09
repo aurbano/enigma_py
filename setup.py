@@ -12,7 +12,7 @@ else:
         long_description = f.read()
 
 version = {}
-with open(os.path.join(_here, 'enigma', 'version.py')) as f:
+with open(os.path.join(_here, 'src', 'version.py')) as f:
     exec(f.read(), version)
 
 setup(
@@ -25,15 +25,15 @@ setup(
     url='https://github.com/aurbano/enigma.py',
     license='MIT',
     packages=['enigma'],
-#   no dependencies in this example
-#   install_requires=[
-#       'dependency==1.2.3',
-#   ],
-#   no scripts in this example
-#   scripts=['bin/a-script'],
+    #   no dependencies in this example
+    #   install_requires=[
+    #       'dependency==1.2.3',
+    #   ],
+    #   no scripts in this example
+    #   scripts=['bin/a-script'],
     include_package_data=True,
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Science/Research',
         'Programming Language :: Python :: 3.6'],
-    )
+)
