@@ -61,6 +61,9 @@ class Machine:
             is_first_rotor = (index == 0)
             is_last_rotor = (index == len(self.rotors) - 1)
 
+            if is_last_rotor and len(self.rotors) > 3:
+                break
+
             if is_first_rotor or should_next_rotor_rotate or (not is_last_rotor and rotor.is_on_notch()):
                 should_next_rotor_rotate = rotor.is_on_notch()
                 rotor.rotate()

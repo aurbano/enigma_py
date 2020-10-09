@@ -138,7 +138,7 @@ class MachineTest(unittest.TestCase):
         )
 
         self.assertEqual(machine.encode("Z"), "V")
-        self.assertEqual(machine._get_positions(), "RFWA")
+        self.assertEqual(machine._get_positions(), "QFWA")
 
     def test_Beta_I_III_IV_rBthin_01010101_AAAA(self):
         machine = Machine(
