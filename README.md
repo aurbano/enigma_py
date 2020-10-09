@@ -1,5 +1,16 @@
 # Enigma Machine Emulator
 
+## Documentation
+
+All modules are annotated with docstrings, if you want to see generated documentation the project also include sphinx config for it:
+
+```
+pip install sphinx
+cd docs
+make html
+open _build/index.html
+```
+
 ## Test
 
 ```
