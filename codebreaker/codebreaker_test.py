@@ -7,7 +7,7 @@ import itertools
 import string
 
 from codebreaker import Codebreaker
-from .util import generate_all_positions, get_combinations_of, rotor_variations
+from .util import generate_all_positions, get_combinations_of, swap_rotor_chars
 
 
 class CodebreakerTest(unittest.TestCase):
@@ -123,10 +123,12 @@ class CodebreakerTest(unittest.TestCase):
         codebreaker.add_possible_reflector(Rotors["B"]())
         codebreaker.add_possible_reflector(Rotors["A"]())
 
-        possible_settings = list(filter(
-            lambda i: i <= 26,
-            [int(i[0] + i[1]) for i in itertools.product('02468', repeat=2)]
-        ))
+        possible_settings = [
+            i for i in range(0, 27)
+                if (i % 10) % 2 is 0
+                    and int(i / 10) % 2 is 0
+        ]
+
         for settings in get_combinations_of(possible_settings, 3):
             codebreaker.add_possible_settings(list(settings))
 
@@ -224,10 +226,12 @@ class CodebreakerTest(unittest.TestCase):
         rotor_B = Rotors["B"]().pattern
         rotor_C = Rotors["C"]().pattern
 
+        alphabet = string.ascii_uppercase
+
         variations = {
-            "A": rotor_variations(rotor_A, 4),
-            "B": rotor_variations(rotor_B, 4),
-            "C": rotor_variations(rotor_C, 4),
+            "A": swap_rotor_chars(alphabet, rotor_A),
+            "B": swap_rotor_chars(alphabet, rotor_B),
+            "C": swap_rotor_chars(alphabet, rotor_C),
         }
         rotors = ["A", "B", "C"]
         decoded = None
@@ -247,14 +251,12 @@ class CodebreakerTest(unittest.TestCase):
         if decoded is None:
             raise ValueError("Unable to decode message")
 
-        print(current_rotor, decoded)
-
-        # self.assertEquals(
-        #     decoded['msg'],
-        #     'NICEWORKYOUVEMANAGEDTODECODETHEFIRSTSECRETSTRING'
-        # )
-        # self.assertEquals(decoded['rotors'], ["Beta", "Gamma", "V"])
-        # self.assertEquals(decoded['settings'], [4, 2, 14])
-        # self.assertEquals(decoded['positions'], ["M", "J", "M"])
-        # self.assertEquals(decoded['reflector'], "C")
-        # self.assertEquals(decoded['plugboard'], "KI XN FL")
+        self.assertEquals(
+            decoded['msg'],
+            'YOUCANFOLLOWMYDOGONINSTAGRAMATTALESOFHOFFMANN'
+        )
+        self.assertEquals(decoded['rotors'], ["V", "II", "IV"])
+        self.assertEquals(decoded['settings'], [6, 18, 7])
+        self.assertEquals(decoded['positions'], ["A", "J", "L"])
+        self.assertEquals(decoded['reflector'], "B")
+        self.assertEquals(decoded['plugboard'], "UG IE PO NX WT")
