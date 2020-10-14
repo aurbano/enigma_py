@@ -108,7 +108,7 @@ class CodebreakerTest(unittest.TestCase):
         codebreaker = Codebreaker(
             "ABSKJAKKMRITTNYURBJFWQGRSGNNYJSDRYLAPQWIAGKJYEPCTAGDCTHLCDRZRFZHKNRSDLNPFPEBVESHPY"
         )
-        # codebreaker.add_known_word('THOUSANDS')
+        codebreaker.add_known_word('THOUSANDS')
 
         possible_rotors = list(itertools.permutations(
             ["II", "Gamma", "IV", "Beta"],

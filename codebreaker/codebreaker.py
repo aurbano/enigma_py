@@ -82,7 +82,7 @@ class Codebreaker:
                 max_score = score
                 valid_combination = index
             
-            if score >= 1:
+            if score >= 0.9:
                 break
 
         if valid_combination is not None:
@@ -98,11 +98,8 @@ class Codebreaker:
         raise ValueError("Unable to decode message.")
 
     def _test_decoding(self, decoded_str: str):
-        if len(self.known_words_in_output) == 0:
-            return likelyhood_text_is_english(decoded_str)
-
         for crib in self.known_words_in_output:
-            if crib in decoded_str:
-                return 1
+            if crib not in decoded_str:
+                return 0
 
-        return 0
+        return likelyhood_text_is_english(decoded_str)
