@@ -48,19 +48,19 @@ def swap_letter(alphabet: str, rotor_pattern: str, char1: str, char2: str):
 def swap_list_items(items: List, idx1: int, idx2: int):
     items[idx1], items[idx2] = items[idx2], items[idx1]
 
-def is_english(text: str):
+def likelyhood_text_is_english(text: str):
     """
     Simple function to determine what percentage of a string are the most common trigrams in english.
-    Trigrams taken from "Lewand, Robert (2000). Cryptological Mathematics. The Mathematical Association of America. p. 37. ISBN 978-0-88385-719-9."
-    Frequency taken from  "Linton, Tom (2001). "Relative Frequencies of Letters in General English Plain text". Central College. Cryptography (Spring ed.). Archived from the original on January 22, 2007."
+    It looks for the frequency for several indicatorsL
+     - Most typical trigrams in English
+     - Bigrams that don't occur in English
+     - Consonant chains
 
-    Both sources found under the Wikipedia article on English Trigrams.
+    Trigrams from "Lewand, Robert (2000). Cryptological Mathematics. The Mathematical Association of America. p. 37. ISBN 978-0-88385-719-9."
+    Bigrams from "Peter Norvig. English Letter Frequency Counts: Mayzner Revisited http://norvig.com/mayzner.html - visited 14 Oct 2020"
 
-    This method will return the percentage with which this trigrams happen, which is a very naive approach but when comparing
-    random characters with English concatenated words it produces results that are good enough.
-
-    In order to ensure false positives are less likely to be present in the output the algorithm then checks the longest consecutive
-    string made of consonants, as it's unlikely English will have 4-5 at most.
+    This method returns the degree of confidence that the given text is in English, in the range [0, 1] where 
+    1 means that it's extremely likely this text is English.
 
     If the string had been made up of words separated by spaces, other more accurate approaches could've been followed, such as
     dictionary lookup of common words, naive bayes analysis...
@@ -85,27 +85,54 @@ def is_english(text: str):
         'sth',
         'men',
     ]
-    expected_frequency = 0.15
+    unusual_bigrams = [
+        'JQ',
+        'QG',
+        'QK',
+        'QY',
+        'QZ',
+        'WQ',
+        'WZ',
+        'ZZ',
+        'TF',
+    ]
     max_consonants = 4
 
-    return trigram_evaluator(text, trigrams, expected_frequency, max_consonants)
+    percentage_trigrams = abs(0.1 - substr_evaluator(text, trigrams))
+    percentage_bigrams = substr_evaluator(text, unusual_bigrams)
 
-    
-def trigram_evaluator(text: str, trigrams: List[str], expected_frequency: int, max_consecutive_consonants: int):
+    consonant_chain_penalty = consonant_chain_evaluator(text, max_consonants, 0.1)
+
+    weight_trigrams = 1
+    weight_bigrams = 4
+
+    max_value = weight_trigrams + weight_bigrams
+
+    # normalised confidence that the given text is english in the range [0, 1]
+    # where 1 is very sure that it's valid english
+    confidence = max(0, (
+        max_value - max(weight_trigrams * percentage_trigrams, weight_bigrams * percentage_bigrams)
+    ) / max_value - consonant_chain_penalty)
+
+    return confidence
+
+
+def consonant_chain_evaluator(text: str, max_consonants, penalty_per_char):
+    consonant_chains = re.split(r"[aeiou]+", text, flags=re.I)
+    consecutive_consonants = [
+        (len(chain) - max_consonants) * penalty_per_char 
+        for chain in consonant_chains
+        if len(chain) >= max_consonants
+    ]
+    return sum(consecutive_consonants)
+
+def substr_evaluator(text: str, substrings: List[str]):
     total = 0
     len_found = 0
-    for trigram in trigrams:
-        occurences = len([m.start() for m in re.finditer(trigram.upper(), text)])
+    for substring in substrings:
+        occurences = len([m.start() for m in re.finditer(substring.upper(), text)])
         if occurences > 0:
             total += occurences
-            len_found += len(trigram) * occurences
+            len_found += len(substring) * occurences
     
-    found_percentage = len_found / len(text)
-
-    if found_percentage < expected_frequency:
-        return False
-    
-    consecutive_consonants = re.split(r"[aeiou]+", text, flags=re.I)
-    longest_consecutive_consonants = len(max(consecutive_consonants, key=len))
-
-    return longest_consecutive_consonants <= max_consecutive_consonants
+    return len_found / len(text)

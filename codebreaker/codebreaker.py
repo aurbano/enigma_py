@@ -2,7 +2,7 @@ import itertools
 from typing import List
 from enigma.rotor import Rotor
 from enigma.machine import Machine
-from .util import is_english
+from .util import likelyhood_text_is_english
 
 
 class Codebreaker:
@@ -57,6 +57,7 @@ class Codebreaker:
 
         decoded_str = ''
         valid_combination = None
+        max_score = 0
 
         for index, combination in enumerate(combinations):
             rotors = combination[0]
@@ -75,9 +76,13 @@ class Codebreaker:
                 machine.set_plugboard_mappings(plugboard)
 
             decoded_str = machine.encode(self.code)
+            score = self._test_decoding(decoded_str)
 
-            if self._test_decoding(decoded_str):
+            if score > max_score:
+                max_score = score
                 valid_combination = index
+            
+            if score >= 1:
                 break
 
         if valid_combination is not None:
@@ -94,10 +99,10 @@ class Codebreaker:
 
     def _test_decoding(self, decoded_str: str):
         if len(self.known_words_in_output) == 0:
-            return is_english(decoded_str)
+            return likelyhood_text_is_english(decoded_str)
 
         for crib in self.known_words_in_output:
             if crib in decoded_str:
-                return True
+                return 1
 
-        return False
+        return 0

@@ -1,6 +1,6 @@
 # flake8: noqa
 import unittest, string
-from .util import swap_letter, is_english
+from .util import swap_letter, likelyhood_text_is_english
 
 
 class UtilTest(unittest.TestCase):
@@ -11,18 +11,54 @@ class UtilTest(unittest.TestCase):
 
         self.assertEquals(swap_letter(alphabet, pattern, 'E', 'J'), swapped)
     
-    def test_is_english(self):
-        not_english = [
-            'DMEXBMKYCVPNQBEDHXVPZGKMTFFBJRPJTLHLCHOTKOYXGGHZ',
-            'ABSKJAKKMRITTNYURBJFWQGRSGNNYJSDRYLAPQWIAGKJYEPCTAGDCTHLCDRZRFZHKNRSDLNPFPEBVESHPY'
-        ]
-        english = [
-            'NICEWORKYOUVEMANAGEDTODECODETHEFIRSTSECRETSTRING',
-            'SQUIRRELSPLANTTHOUSANDSOFNEWTREESEACHYEARBYMERELYFORGETTINGWHERETHEYPUTTHEIRACORNS'
+    def test_likelihood_english_each_code(self):
+        codes = [
+            {
+                'valid': 'YOUCANFOLLOWMYDOGONINSTAGRAMATTALESOFHOFFMANN',
+                'invalid': [
+                    'YOUCGRFOYLONMYIOGHDINCEPGKTIATFBLEBOFHGUFMENN',
+                    'HWREISXLGTTBYVXRCWWJAKZDTVZWKBDJPVQYNEQIOTIFX',
+                    'RNKMANUKLSEUSBJJPSSMMEHNPDLTMUYOMRIQUOOEHVAJL',
+                    'WJKMUYUKISZTABSJPESMMEYIPLRZATXHMEAQUONMHVHJL',
+                    'YOUCQBFOTLOTMHUOGENIOSYXGCAZATXELETOMHAFFMWUN',
+                    'YOUCQRFOYLONMZIOLHNIHSEPGKAIATFBLEBOFHGFEMWNN',
+                ]
+            },
+            {
+                'valid': 'NICEWORKYOUVEMANAGEDTODECODETHEFIRSTSECRETSTRING',
+                'invalid': [
+                    'DMEXBMKYCVPNQBEDHXVPZGKMTFFBJRPJTLHLCHOTKOYXGGHZ'
+                ]
+            },
+            {
+                'valid': 'IHOPEYOUAREENJOYINGTHEUNIVERSITYOFBATHEXPERIENCESOFAR',
+                'invalid': [
+                    'CMFSUPKNCBMUYEQVVDYKLRQZTPUFHSWWAKTUGXMPAMYAFITXIJKMH',
+                    'VEQMEUNEGCZXUMVAZSKSUTJJZBZKQPRKVESMLLETVHUCIODWBUIZG',
+                    'ZEBPYHGSNUULEBVOYLDCEQOYZYFEKOFOJQRZIABYCODUGUDYOPZZR',
+                    'NKMKOJFQYAXFWXACEFGDAKPDBEVXWECMWEDOUNBORZZUURHBEOFYR',
+                ]
+            },
+            {
+                'valid': 'SQUIRRELSPLANTTHOUSANDSOFNEWTREESEACHYEARBYMERELYFORGETTINGWHERETHEYPUTTHEIRACORNS',
+                'invalid': [
+                    'ABSKJAKKMRITTNYURBJFWQGRSGNNYJSDRYLAPQWIAGKJYEPCTAGDCTHLCDRZRFZHKNRSDLNPFPEBVESHPY',
+                    'SIJBZUNWZIBVQHWTVQAMGBFEWULANKUIGVEXIGSRSIDURBOOAHLBANPHQXLTCLQEOQNRQXMGVSMESRCICG'
+                ]
+            },
+            {
+                'valid': 'NOTUTORSWEREHARMEDNORIMPLICATEDOFCRIMESDURINGTHEMAKINGOFTHESEEXAMPLES',
+                'invalid': [
+                    'SDNTVTPHRBNWTLMZTQKZGADDQYPFNHBPNHCQGBGMZPZLUAVGDQVYRBFYYEIXQWVTHXGNW',
+                    'NYDLDBRSWEREKTRMFANORKSULICTDEAOFCRIMESAURINGEHECTKINGOFDHESEEXDMPLES',
+                    'NOEIEBRSWARALARMFDAORVMPIKCTEADOFCRKMASDURKEGDHAMTLKNGOFEOCSAAXEMPIAS'
+                ]
+            },
         ]
 
-        for text in not_english:
-            self.assertFalse(is_english(text))
-        
-        for text in english:
-            self.assertTrue(is_english(text))
+        for code in codes:
+            valid_score = likelyhood_text_is_english(code['valid'])
+            for invalid in code['invalid']:
+                invalid_score = likelyhood_text_is_english(invalid)
+                print(code['valid'], invalid, invalid_score, valid_score)
+                self.assertLess(invalid_score, valid_score)
