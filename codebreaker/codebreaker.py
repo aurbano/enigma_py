@@ -2,6 +2,7 @@ import itertools
 from typing import List
 from enigma.rotor import Rotor
 from enigma.machine import Machine
+from .util import is_english
 
 
 class Codebreaker:
@@ -93,8 +94,7 @@ class Codebreaker:
 
     def _test_decoding(self, decoded_str: str):
         if len(self.known_words_in_output) == 0:
-            raise NotImplementedError(
-                "The codebreaker needs known words in the output")
+            return is_english(decoded_str)
 
         for crib in self.known_words_in_output:
             if crib in decoded_str:

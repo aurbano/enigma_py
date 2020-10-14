@@ -152,7 +152,7 @@ class CodebreakerTest(unittest.TestCase):
         codebreaker = Codebreaker(
             "SDNTVTPHRBNWTLMZTQKZGADDQYPFNHBPNHCQGBGMZPZLUAVGDQVYRBFYYEIXQWVTHXGNW"
         )
-        codebreaker.add_known_word('TUTOR')
+        # codebreaker.add_known_word('TUTOR')
 
         codebreaker.add_possible_rotors(
             [Rotors["V"](), Rotors["III"](), Rotors["IV"]()]
@@ -193,13 +193,13 @@ class CodebreakerTest(unittest.TestCase):
 
         self.assertEquals(
             decoded['msg'],
-            'NHTUTORSWEREHARMEIEORKZSLKCATEIOFCRKMESIURKNGTHEZADKNGOFTHXSEEXAMPLES'
+            'NOTUTORSWEREHARMEDNORIMPLICATEDOFCRIMESDURINGTHEMAKINGOFTHESEEXAMPLES'
         )
         self.assertEquals(decoded['rotors'], ["V", "III", "IV"])
         self.assertEquals(decoded['settings'], [24, 12, 10])
         self.assertEquals(decoded['positions'], ["S", "W", "U"])
         self.assertEquals(decoded['reflector'], "A")
-        self.assertEquals(decoded['plugboard'], "WP RJ VF HN CG BS AT ID")
+        self.assertEquals(decoded['plugboard'], "WP RJ VF HN CG BS AT IK")
 
     def test_code_5(self):
         codebreaker = Codebreaker(
@@ -238,7 +238,6 @@ class CodebreakerTest(unittest.TestCase):
 
         for rotor_name in rotors:
             for variation in variations[rotor_name]:
-                current_rotor = rotor_name
                 codebreaker.reset_reflector()
                 codebreaker.add_possible_reflector(Rotor(rotor_name, variation))
 
