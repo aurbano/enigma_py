@@ -27,10 +27,10 @@ class Rotor:
         self.pattern = pattern
         self.position = 0
         self.setting = 0
-        self.notch = None
+        self.notches = None
 
         if notch is not None:
-            self.notch = self._char_to_index(notch)
+            self.notches = [self._char_to_index(each_notch) for each_notch in list(notch)]
 
     def set_position(self, position: str):
         """
@@ -94,13 +94,13 @@ class Rotor:
         """
         Return True if this rotor has any notches
         """
-        return self.notch is not None
+        return self.notches is not None and len(self.notches) > 0
 
     def is_on_notch(self):
         """
         Return True if the current position is on a notch
         """
-        return self.has_notch() and self.position == self.notch
+        return self.has_notch() and self.position in self.notches
 
     def _char_to_index(self, char: str):
         """

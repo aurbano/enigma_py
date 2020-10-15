@@ -15,7 +15,7 @@ class Machine:
         then left-to-right directly.
     """
 
-    def __init__(self, rotors: List[Rotor], reflector: Rotor = None):
+    def __init__(self, rotors: List[Rotor], reflector: Rotor):
         self.rotors = rotors
         self.reflector = reflector
         self.plug_board = Plugboard()
@@ -97,8 +97,7 @@ class Machine:
             encoded_char = rotor.encode_right_to_left(encoded_char)
 
         # reflector
-        if self.reflector is not None:
-            encoded_char = self.reflector.encode_right_to_left(encoded_char)
+        encoded_char = self.reflector.encode_right_to_left(encoded_char)
 
         # rotors RTL
         for rotor in self.rotors:
