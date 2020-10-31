@@ -47,6 +47,57 @@ class CustomExtensionsTest(unittest.TestCase):
             machine.encode(initial_str)
         )
     
+    def test_emoji_machine(self):
+        custom_alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ😀😃😄😁😆😅😂🤣😊😇🙂🙃😉😌😍🥰😘😗😚😋😛😝😜"
+        rotor_I = Rotor(
+            "Test",
+            "🙃😉😌😍🥰😘😗😚😋😛😝😜😀😃😄😁😆😅😂🤣😊😇🙂EKMFLGDQVZNTOWYHXUSPAIBRCJ",
+            "A",
+            custom_alphabet
+        )
+        rotor_II = Rotor(
+            "Test",
+            "AJDKSIRUXBLHWTMCQGZNPYFVOE🙃😉😌😍🥰😘😗😚😋😛😝😜😀😃😄😁😆😅😂🤣😊😇🙂",
+            "😍",
+            custom_alphabet
+        )
+        rotor_III = Rotor(
+            "Test",
+            "😗😚😋😛😝😜😀😃😄😁😆BDFHJLCPRTXVZNYEIWGAKMUSQO🙃😉😌😍🥰😘😅😂🤣😊😇🙂",
+            "😂",
+            custom_alphabet
+        )
+        reflector = Rotor(
+            "Reflector",
+            "😜😃😄😁😆😅😂🤣😊😇🙂🙃😉😌😍🥰😘😗😚😋😛😝😀EJMZALYXVBWFCRQUONTSPIKHGD",
+            None,
+            custom_alphabet
+        )
+
+        machine = Machine(
+            [rotor_I, rotor_II, rotor_III],
+            reflector
+        )
+
+        machine.set_rotor_positions(custom_alphabet[0])
+
+        initial_str = "THIS ENIGMA MACHINE SUPPORTS EMOJIS! 😜😍🥰"
+        encoded_str = "😆QK😗 😋🤣FUR😉 SX😚😇😜T😜 😃😂😃😄U😌A😚 😝😛😘😇W🙃! TO😍"
+
+        # encodes string properly
+        self.assertEqual(
+            machine.encode(initial_str),
+            encoded_str
+        )
+
+        machine.set_rotor_positions(custom_alphabet[0], custom_alphabet[0], custom_alphabet[0])
+
+        # decodes string properly
+        self.assertEqual(
+            encoded_str,
+            machine.encode(initial_str)
+        )
+    
     def test_enigma_tirpitz(self):
         machine = Machine(
             [Rotors["I-T"](), Rotors["II-T"](), Rotors["III-T"]()],

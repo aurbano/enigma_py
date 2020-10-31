@@ -35,6 +35,37 @@ The following variants have rotors available:
 * Norway (Norenigma)
 * Railway Enigma
 
+## Machine Settings
+
+### Arbitrary Number of Rotors
+This simulator supports both arbitrary rotos and setting which is the last rotor that can turn. This is because in most versions of the machine, only the first 3 rotors would turn with each keystroke.
+
+### Multiple Notches
+Rotors can have from 0 to any number of notches.
+
+### Entry Wheel (i.e. Enigma T - Tirpitz)
+Enigma machines could have an entry wheel that determined the wiring from the keys to the plugboard, and from the plugboard to the lamps.
+
+### Extended Alphabet
+The rotors allow defining an input alphabet. This can be used to extend from the standard uppercase ASCII used in most machines, to use any unicode character.
+
+Examples of characters that can be encoded with `enigma_py`:
+
+* Alphanumeric
+* Mixed-case messages
+* Non-roman alphabets (Russian, Japanese... )
+* Special characters
+
+`enigma_py/enigma/tests/custom_extensions_test.py` features a test (`test_machine_encodes_custom_alphabets`) with mixed-case inputs and numbers.
+
+It is trivial to use any unicode character - even _emoji_ (as they are just a unicode extension)!
+
+Just for fun I made a few custom "emoji-rotors", so that we can encode:
+
+* Input: `THIS ENIGMA MACHINE SUPPORTS EMOJIS! 😜😍🥰`
+* Encoded: `😆QK😗 😋🤣FUR😉 SX😚😇😜T😜 😃😂😃😄U😌A😚 😝😛😘😇W🙃! TO😍`
+
+To see the Machine and rotors used for the strings above look for the `test_emoji_machine`.
 
 ## Documentation
 
