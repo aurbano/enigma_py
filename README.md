@@ -1,6 +1,6 @@
 # Enigma Machine Emulator
 
-This is a simulator for the Enigma Machine M3 and M4, but extensible so that it can be used to simulate any variant of the Enigma Machine.
+This is a simulator for general Enigma Machines, it includes rotor definitions for most versions of the machine (see list below), and is flexible enough that it can be used to simulate any other ones.
 
 ### Example
 
