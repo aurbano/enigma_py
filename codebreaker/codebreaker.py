@@ -42,7 +42,7 @@ class Codebreaker:
     def add_possible_plugboard(self, plugboard: str):
         self.possible_plugboards.append(plugboard)
 
-    def decode(self):
+    def decode(self, break_on_crib: bool = False):
         if len(self.possible_plugboards) < 1:
             self.possible_plugboards.append('')
 
@@ -76,7 +76,7 @@ class Codebreaker:
                 machine.set_plugboard_mappings(plugboard)
 
             decoded_str = machine.encode(self.code)
-            score = self._test_decoding(decoded_str)
+            score = self._test_decoding(decoded_str, break_on_crib)
 
             if score > max_score:
                 max_score = score
@@ -97,9 +97,11 @@ class Codebreaker:
 
         raise ValueError("Unable to decode message.")
 
-    def _test_decoding(self, decoded_str: str):
+    def _test_decoding(self, decoded_str: str, break_on_crib: bool):
         for crib in self.known_words_in_output:
             if crib not in decoded_str:
                 return 0
+            if break_on_crib and crib in decoded_str:
+                return 1
 
         return likelyhood_text_is_english(decoded_str)

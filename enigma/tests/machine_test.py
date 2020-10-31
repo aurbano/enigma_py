@@ -425,7 +425,7 @@ class MachineTest(unittest.TestCase):
         )
 
         machine.set_rotor_settings(11, 15, 19)
-        self.assertEquals(machine._get_settings(), "KOS")
+        self.assertEqual(machine._get_settings(), "KOS")
 
     def test_settings_too_many(self):
         machine = Machine(
@@ -434,7 +434,7 @@ class MachineTest(unittest.TestCase):
         )
 
         machine.set_rotor_settings(11, 15, 19, 21, 34)
-        self.assertEquals(machine._get_settings(), "KOS")
+        self.assertEqual(machine._get_settings(), "KOS")
 
     def test_settings_too_few(self):
         machine = Machine(
@@ -443,7 +443,7 @@ class MachineTest(unittest.TestCase):
         )
 
         machine.set_rotor_settings(11, 15)
-        self.assertEquals(machine._get_settings(), "KOA")
+        self.assertEqual(machine._get_settings(), "KOA")
 
     def test_positions(self):
         machine = Machine(
@@ -452,7 +452,7 @@ class MachineTest(unittest.TestCase):
         )
 
         machine.set_rotor_positions("R", "T", "W")
-        self.assertEquals(machine._get_positions(), "RTW")
+        self.assertEqual(machine._get_positions(), "RTW")
 
     def test_positions_too_many(self):
         machine = Machine(
@@ -461,7 +461,7 @@ class MachineTest(unittest.TestCase):
         )
 
         machine.set_rotor_positions("R", "T", "W", "A", "B")
-        self.assertEquals(machine._get_positions(), "RTW")
+        self.assertEqual(machine._get_positions(), "RTW")
 
     def test_positions_too_few(self):
         machine = Machine(
@@ -470,7 +470,7 @@ class MachineTest(unittest.TestCase):
         )
 
         machine.set_rotor_positions("R", "T")
-        self.assertEquals(machine._get_positions(), "RTA")
+        self.assertEqual(machine._get_positions(), "RTA")
 
 
 if __name__ == '__main__':

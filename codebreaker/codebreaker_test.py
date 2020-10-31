@@ -33,7 +33,7 @@ class CodebreakerTest(unittest.TestCase):
         codebreaker.add_possible_reflector(Rotors["B"]())
         codebreaker.add_possible_reflector(Rotors["C"]())
 
-        decoded = codebreaker.decode()
+        decoded = codebreaker.decode(True)
 
         self.assertEquals(decoded['msg'], 'ALEJANDRO')
         self.assertEquals(decoded['rotors'], ["I", "II", "III"])
@@ -62,7 +62,7 @@ class CodebreakerTest(unittest.TestCase):
 
         codebreaker.add_possible_plugboard("KI XN FL")
 
-        decoded = codebreaker.decode()
+        decoded = codebreaker.decode(True)
         self.assertEquals(
             decoded['msg'],
             'NICEWORKYOUVEMANAGEDTODECODETHEFIRSTSECRETSTRING'
@@ -92,7 +92,7 @@ class CodebreakerTest(unittest.TestCase):
 
         codebreaker.add_possible_plugboard("VH PT ZG BJ EY FS")
 
-        decoded = codebreaker.decode()
+        decoded = codebreaker.decode(True)
 
         self.assertEquals(
             decoded['msg'],
@@ -136,7 +136,7 @@ class CodebreakerTest(unittest.TestCase):
 
         codebreaker.add_possible_plugboard("FH TS BE UQ KD AL")
 
-        decoded = codebreaker.decode()
+        decoded = codebreaker.decode(True)
 
         self.assertEquals(
             decoded['msg'],
@@ -222,27 +222,29 @@ class CodebreakerTest(unittest.TestCase):
 
         # Non standard reflector goes here
         # need to generate variations of rotors A, B, C
-        rotor_A = Rotors["A"]().pattern
-        rotor_B = Rotors["B"]().pattern
-        rotor_C = Rotors["C"]().pattern
+        reflector_A = Rotors["A"]().pattern
+        reflector_B = Rotors["B"]().pattern
+        reflector_C = Rotors["C"]().pattern
 
         alphabet = string.ascii_uppercase
 
         variations = {
-            "A": swap_rotor_chars(alphabet, rotor_A),
-            "B": swap_rotor_chars(alphabet, rotor_B),
-            "C": swap_rotor_chars(alphabet, rotor_C),
+            "A": swap_rotor_chars(alphabet, reflector_A),
+            "B": swap_rotor_chars(alphabet, reflector_B),
+            "C": swap_rotor_chars(alphabet, reflector_C),
         }
-        rotors = ["A", "B", "C"]
+        reflectors = ["A", "B", "C"]
         decoded = None
+        successful_variation = None
 
-        for rotor_name in rotors:
-            for variation in variations[rotor_name]:
+        for reflector_name in reflectors:
+            for variation in variations[reflector_name]:
                 codebreaker.reset_reflector()
-                codebreaker.add_possible_reflector(Rotor(rotor_name, variation))
+                codebreaker.add_possible_reflector(Rotor(reflector_name, variation))
 
                 try:
-                    decoded = codebreaker.decode()
+                    decoded = codebreaker.decode(True)
+                    successful_variation = variation
                     break
                 except:
                     continue
@@ -258,4 +260,5 @@ class CodebreakerTest(unittest.TestCase):
         self.assertEquals(decoded['settings'], [6, 18, 7])
         self.assertEquals(decoded['positions'], ["A", "J", "L"])
         self.assertEquals(decoded['reflector'], "B")
+        self.assertEquals(successful_variation, "PQUHRSLDYXNGOKMABEFZCWVJIT")
         self.assertEquals(decoded['plugboard'], "UG IE PO NX WT")

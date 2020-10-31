@@ -33,6 +33,7 @@ The following variants have rotors available:
 * Enigma KD
 * Enigma T - Tirpitz (custom entry wheel)
 * Norway (Norenigma)
+* Railway Enigma
 
 
 ## Documentation

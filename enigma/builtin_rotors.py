@@ -35,6 +35,13 @@ Rotors = {
     "UKW-KD": lambda: Rotor("UKW-KD", "KOTVPNLMJIAGHFBEWYXCZDQSRU"),
     "ETW-KD": lambda: Rotor("ETW-KD", "QWERTZUIOASDFGHJKPYXCVBNML"),
 
+    # Railway Enigma
+    "I-Railway": lambda: Rotor("I-Railway", "JGDQOXUSCAMIFRVTPNEWKBLZYH", "N"),
+    "II-Railway": lambda: Rotor("II-Railway", "NTZPSFBOKMWRCJDIVLAEYUXHGQ", "E"),
+    "III-Railway": lambda: Rotor("III-Railway", "JVIUBHTCDYAKEQZPOSGXNRMWFL", "Y"),
+    "UKW-Railway": lambda: Rotor("UKW-Railway", "QYHOGNECVPUZTFDJAXWMKISRBL"),
+    "ETW-Railway": lambda: Rotor("ETW-Railway", "QWERTZUIOASDFGHJKPYXCVBNML"),
+
     # M3 & M4 Naval
     "VI": lambda: Rotor("VI", "JPGVOUMFYQBENHZRDKASXLICTW", "ZM"),
     "VII": lambda: Rotor("VII", "NZJHGRCXMYSWBOUFAIVLPEKQDT", "ZM"),
