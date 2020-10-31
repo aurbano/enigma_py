@@ -1,8 +1,10 @@
 class Rotor:
     """Create an Enigma Machine Rotor
 
-    :param pattern: The rotor pattern specified as a string
-    :param notch: Notches for this rotor, specified as a string
+    :param pattern: The rotor pattern specified as a case-sensitive string (the 
+        standard alphabet is uppercase, so unless you specify a custom alphabet
+        pass the pattern as uppercase too)
+    :param notches: Notches for this rotor, specified as a string
         (if there are multiple characters in the string, the rotor will have
         multiple notches)
         None or an empty string can also be passed if this rotor shouldn't
@@ -17,7 +19,7 @@ class Rotor:
         self,
         name: str,
         pattern: str,
-        notch: str = None,
+        notches: str = None,
         alphabet: str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     ):
         self.name = name
@@ -29,8 +31,8 @@ class Rotor:
         self.setting = 0
         self.notches = None
 
-        if notch is not None:
-            self.notches = [self._char_to_index(each_notch) for each_notch in list(notch)]
+        if notches is not None:
+            self.notches = [self._char_to_index(each_notch) for each_notch in list(notches)]
 
     def set_position(self, position: str):
         """
@@ -68,6 +70,9 @@ class Rotor:
 
         :param char: Character to be encoded
         """
+        if not self._is_char_in_alphabet(char):
+            return char
+
         in_contact_index = self._get_contact_in(char)
         pin_index = self._char_to_index(self.pattern[in_contact_index])
         return self._get_contact_out(pin_index)
@@ -78,6 +83,9 @@ class Rotor:
 
         :param char: Character to be encoded
         """
+        if not self._is_char_in_alphabet(char):
+            return char
+
         in_contact_index = self._get_contact_in(char)
         contact_char = self._index_to_char(in_contact_index)
         pin_index = self.pattern.index(contact_char)
@@ -106,7 +114,10 @@ class Rotor:
         """
         Convert an input character into an index in the rotor's alphabet
         """
-        return self.alphabet.index(char)
+        try:
+            return self.alphabet.index(char)
+        except:
+            raise ValueError("Notch not in rotor pattern! " + char)
 
     def _index_to_char(self, index: int):
         """
@@ -130,7 +141,7 @@ class Rotor:
         position and rotor's setting
         """
         contact_out_index = (index - self.position +
-                             self.setting) % len(self.pattern)
+                            self.setting) % len(self.pattern)
         return self._index_to_char(contact_out_index)
 
     def _ranged(self, min_value, max_value, value):
@@ -143,3 +154,6 @@ class Rotor:
         :param value: Value that needs to be within the range
         """
         return max(min_value, min(max_value, value))
+    
+    def _is_char_in_alphabet(self, char: str):
+        return char in self.alphabet

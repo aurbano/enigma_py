@@ -1,6 +1,5 @@
 from .rotor import Rotor
 
-# TODO this is not immutable!
 Rotors = {
     "Beta": lambda: Rotor("Beta", "LEYJVCNIXWPBQMDRTAKZGFUHOS"),
     "Gamma": lambda: Rotor("Gamma", "FSOKANUERHMBTIYCWLQPZXVGJD"),

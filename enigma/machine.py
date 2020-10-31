@@ -71,21 +71,25 @@ class Machine:
         Encode a string using the Enigma machine
 
         :param string: String to be encoded. Unknown characters will be
-            preserved in the output.
+            preserved in the output. This is case-sensitive and standard
+            rotors use uppercase letters only.
         """
         ret = ''
-        string = string.upper()
         for char in string:
-            ret += self._encode_char(char)
+            ret += self._encode_single_char(char)
         return ret
 
-    def _encode_char(self, char: str):
+    def _encode_single_char(self, char: str):
         """
         Encode a single character using the Enigma machine
 
-        :param char: Character to be encoded
+        :param char: Character to be encoded. This is case-sensitive and
+            standard rotors use uppercase letters only.
         """
-        if char < "A" or char > "Z":
+        if len(char) > 1:
+            raise ValueError("_encode_single_char must be called with one character at a time")
+
+        if not self._is_in_alphabet(char):
             return char
 
         self._rotate_rotors()
@@ -146,3 +150,15 @@ class Machine:
         for rotor in self.rotors:
             settings += rotor.get_setting()
         return settings
+    
+    def _is_in_alphabet(self, char: str):
+        """
+        Check if a given char is in any of the rotors' alphabets
+        """
+        in_alphabet = False
+        for rotor in self.rotors:
+            in_alphabet = rotor._is_char_in_alphabet(char)
+            if in_alphabet:
+                break
+        
+        return in_alphabet

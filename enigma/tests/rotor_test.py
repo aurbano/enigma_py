@@ -2,6 +2,7 @@
 import unittest
 
 from enigma.builtin_rotors import Rotors
+from enigma import Rotor
 
 
 class RotorTest(unittest.TestCase):
@@ -76,6 +77,39 @@ class RotorTest(unittest.TestCase):
         rotor.rotate()
 
         self.assertEqual(rotor.get_position(), "V")
+        self.assertTrue(rotor.is_on_notch())
+
+    def test_multiple_notches(self):
+        notches = "ZABT"
+        rotor = Rotor("Test", "ABCDEFGHIJKLMNOPQRSTUVWXYZ", notches)
+        rotor.set_position('A')
+
+        for i in range(ord("A"), ord("Z") + 1):
+            should_be_on_position = chr(i)
+            should_be_on_notch = should_be_on_position in notches
+
+            self.assertEqual(rotor.get_position(), should_be_on_position)
+            self.assertEqual(rotor.is_on_notch(), should_be_on_notch)
+
+            rotor.rotate()
+
+        self.assertEqual(rotor.get_position(), "A")
+
+    def test_disallow_notch_not_in_alphabet(self):
+        with self.assertRaises(ValueError):
+            Rotor("Test", "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "4")
+
+    def test_custom_alphabet(self):
+        rotor = Rotor(
+            "Test",
+            "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
+            "A4",
+            "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
+        )
+        rotor.set_position('z')
+
+        rotor.rotate()
+        self.assertEqual(rotor.get_position(), "A")
         self.assertTrue(rotor.is_on_notch())
 
 

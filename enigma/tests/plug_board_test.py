@@ -21,6 +21,18 @@ class PlugBoardTest(unittest.TestCase):
 
         self.assertEqual(plugboard.encode("K"), "U")
         self.assertEqual(plugboard.encode("A"), "A")
+    
+    def test_unknown_chars(self):
+        plugboard = Plugboard()
+
+        plugboard.add(PlugLead("SZ"))
+        plugboard.add(PlugLead("GT"))
+        plugboard.add(PlugLead("DV"))
+        plugboard.add(PlugLead("KU"))
+
+        self.assertEqual(plugboard.encode("*"), "*")
+        self.assertEqual(plugboard.encode(" "), " ")
+        self.assertEqual(plugboard.encode("5"), "5")
 
 
 if __name__ == '__main__':
