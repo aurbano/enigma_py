@@ -46,6 +46,71 @@ class CustomExtensionsTest(unittest.TestCase):
             encoded_str,
             machine.encode(initial_str)
         )
+    
+    def test_enigma_tirpitz(self):
+        machine = Machine(
+            [Rotors["I-T"](), Rotors["II-T"](), Rotors["III-T"]()],
+            Rotors["UKW-T"](),
+            Rotors["ETW-T"](),
+        )
+        machine.set_rotor_positions("A", "A", "A")
+        machine.set_rotor_settings(1, 1, 1)
+
+        self.assertEqual(machine.encode("ALEJANDRO"), "FCYVLRRWP")
+    
+    def test_enigma_swiss_k(self):
+        machine = Machine(
+            [Rotors["I-K"](), Rotors["II-K"](), Rotors["III-K"]()],
+            Rotors["UKW-K"](),
+            Rotors["ETW-K"](),
+        )
+        machine.set_rotor_positions("A", "A", "A")
+        machine.set_rotor_settings(1, 1, 1)
+
+        self.assertEqual(machine.encode("ALEJANDRO"), "YAWZILKXJ")
+    
+    def test_enigma_norenigma(self):
+        machine = Machine(
+            [Rotors["I-N"](), Rotors["II-N"](), Rotors["III-N"]()],
+            Rotors["UKW-N"](),
+            Rotors["ETW-N"](),
+        )
+        machine.set_rotor_positions("A", "A", "A")
+        machine.set_rotor_settings(1, 1, 1)
+
+        self.assertEqual(machine.encode("ALEJANDRO"), "QRTZVTLNN")
+    
+    def test_enigma_d(self):
+        machine = Machine(
+            [Rotors["I-D"](), Rotors["II-D"](), Rotors["III-D"]()],
+            Rotors["UKW-D"](),
+            Rotors["ETW-D"](),
+        )
+        machine.set_rotor_positions("A", "A", "A")
+        machine.set_rotor_settings(1, 1, 1)
+
+        self.assertEqual(machine.encode("ALEJANDRO"), "HVMLOHZYV")
+    
+    def test_enigma_m3(self):
+        machine = Machine(
+            [Rotors["VI"](), Rotors["VII"](), Rotors["VIII"]()],
+            Rotors["B"]()
+        )
+        machine.set_rotor_positions("A", "A", "A")
+        machine.set_rotor_settings(1, 1, 1)
+
+        self.assertEqual(machine.encode("ALEJANDRO"), "GOJZBQJHT")
+    
+    def test_enigma_kd(self):
+        machine = Machine(
+            [Rotors["I-KD"](), Rotors["II-KD"](), Rotors["III-KD"]()],
+            Rotors["UKW-KD"](),
+            Rotors["ETW-KD"](),
+        )
+        machine.set_rotor_positions("A", "A", "A")
+        machine.set_rotor_settings(1, 1, 1)
+
+        self.assertEqual(machine.encode("ALEJANDRO"), "LUGRHZMLH")
 
 
 if __name__ == '__main__':

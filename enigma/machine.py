@@ -3,7 +3,6 @@ from .rotor import Rotor
 from .plug_board import Plugboard
 from .plug_lead import PlugLead
 
-
 class Machine:
     """Machine
     Creates a new Enigma machine
@@ -13,13 +12,23 @@ class Machine:
     :param reflector: A rotor to be used as a reflector. Optional, if not
         specified the machine will simply do a right-to-left encoding and
         then left-to-right directly.
+    
+    :param entry_wheel: A rotor to be used as an entry wheel. The military
+        Enigma machine used the standard alphabet (rotor ETW), which equals
+        as not using any entry wheel. But some machines (like the Tirpitz)
+        had a custom one.
+    
+    :param last_turning_rotor: Determine which is the last rotor that's
+        allowed to turn. It defaults to 3 as in most Enigma machines only
+        the first three rotors could rotate.
     """
 
-    def __init__(self, rotors: List[Rotor], reflector: Rotor):
+    def __init__(self, rotors: List[Rotor], reflector: Rotor, entry_wheel: Rotor = None, last_turning_rotor: int = 3):
         self.rotors = rotors
         self.reflector = reflector
         self.plug_board = Plugboard()
-        self.last_turning_rotor = 3
+        self.last_turning_rotor = last_turning_rotor
+        self.entry_wheel = entry_wheel
         return
 
     def set_rotor_settings(self, *settings: int):
@@ -94,7 +103,12 @@ class Machine:
 
         self._rotate_rotors()
 
-        encoded_char = self.plug_board.encode(char)
+        encoded_char = char
+
+        if self.entry_wheel is not None:
+            encoded_char = self.entry_wheel.encode_left_to_right(encoded_char)
+        
+        encoded_char = self.plug_board.encode(encoded_char)
 
         # rotors LTR
         for rotor in reversed(self.rotors):
@@ -106,8 +120,13 @@ class Machine:
         # rotors RTL
         for rotor in self.rotors:
             encoded_char = rotor.encode_left_to_right(encoded_char)
+        
+        encoded_char = self.plug_board.encode(encoded_char)
 
-        return self.plug_board.encode(encoded_char)
+        if self.entry_wheel is not None:
+            encoded_char = self.entry_wheel.encode_right_to_left(encoded_char)
+
+        return encoded_char
 
     def _rotate_rotors(self):
         """

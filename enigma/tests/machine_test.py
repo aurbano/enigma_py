@@ -11,7 +11,7 @@ class MachineTest(unittest.TestCase):
     def test_I_II_III_rA_010101_AAA(self):
         machine = Machine(
             [Rotors["I"](), Rotors["II"](), Rotors["III"]()],
-            Rotors["A"]()
+            Rotors["A"](),
         )
 
         self.assertEqual(machine.encode("ENIGMA MACHINE"), "BYEJNJ RSRWHTF")
