@@ -37,7 +37,7 @@
 <span id="enigma-machine"></span><h1>enigma.machine<a class="headerlink" href="#module-enigma.machine" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
 <dt id="enigma.machine.Machine">
-<em class="property">class </em><code class="sig-prename descclassname">enigma.machine.</code><code class="sig-name descname">Machine</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">rotors</span><span class="p">:</span> <span class="n">List<span class="p">[</span><a class="reference internal" href="enigma.rotor.html#enigma.rotor.Rotor" title="enigma.rotor.Rotor">enigma.rotor.Rotor</a><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">reflector</span><span class="p">:</span> <span class="n"><a class="reference internal" href="enigma.rotor.html#enigma.rotor.Rotor" title="enigma.rotor.Rotor">enigma.rotor.Rotor</a></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#enigma.machine.Machine" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">enigma.machine.</code><code class="sig-name descname">Machine</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">rotors</span><span class="p">:</span> <span class="n">List<span class="p">[</span><a class="reference internal" href="enigma.rotor.html#enigma.rotor.Rotor" title="enigma.rotor.Rotor">enigma.rotor.Rotor</a><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">reflector</span><span class="p">:</span> <span class="n"><a class="reference internal" href="enigma.rotor.html#enigma.rotor.Rotor" title="enigma.rotor.Rotor">enigma.rotor.Rotor</a></span></em>, <em class="sig-param"><span class="n">entry_wheel</span><span class="p">:</span> <span class="n"><a class="reference internal" href="enigma.rotor.html#enigma.rotor.Rotor" title="enigma.rotor.Rotor">enigma.rotor.Rotor</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">last_turning_rotor</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">3</span></em><span class="sig-paren">)</span><a class="headerlink" href="#enigma.machine.Machine" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a new Enigma machine</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -46,6 +46,13 @@
 <li><p><strong>reflector</strong> – A rotor to be used as a reflector. Optional, if not
 specified the machine will simply do a right-to-left encoding and
 then left-to-right directly.</p></li>
+<li><p><strong>entry_wheel</strong> – A rotor to be used as an entry wheel. The military
+Enigma machine used the standard alphabet (rotor ETW), which equals
+as not using any entry wheel. But some machines (like the Tirpitz)
+had a custom one.</p></li>
+<li><p><strong>last_turning_rotor</strong> – Determine which is the last rotor that’s
+allowed to turn. It defaults to 3 as in most Enigma machines only
+the first three rotors could rotate.</p></li>
 </ul>
 </dd>
 </dl>
@@ -56,7 +63,8 @@ then left-to-right directly.</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>string</strong> – String to be encoded. Unknown characters will be
-preserved in the output.</p>
+preserved in the output. This is case-sensitive and standard
+rotors use uppercase letters only.</p>
 </dd>
 </dl>
 </dd></dl>

@@ -75,7 +75,7 @@ To update the docs:
 
 ```
 pip install sphinx
-cd docs
+cd docs-config
 make github
 ```
 
