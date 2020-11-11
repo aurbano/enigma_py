@@ -20,6 +20,7 @@ setup(
     version=version['__version__'],
     description=('Enigma Machine Emulator'),
     long_description=long_description,
+    long_description_content_type="text/markdown",
     author='Alejandro U. Alvarez',
     author_email='aluralma@gmail.com',
     url='https://github.com/aurbano/enigma_py',

@@ -1,0 +1,2 @@
+include enigma/*.py
+include codebreaker/*.py
