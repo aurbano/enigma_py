@@ -22,7 +22,7 @@ setup(
     long_description=long_description,
     author='Alejandro U. Alvarez',
     author_email='aluralma@gmail.com',
-    url='https://github.com/aurbano/enigma.py',
+    url='https://github.com/aurbano/enigma_py',
     license='MIT',
     packages=['enigma'],
     #   no dependencies in this example
