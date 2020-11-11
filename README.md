@@ -2,7 +2,15 @@
 
 This is a simulator for general Enigma Machines, it includes rotor definitions for most versions of the machine (see list below), and is flexible enough that it can be used to simulate any other ones.
 
-### Example
+## Installation
+
+This library is [available on PyPi](https://pypi.org/project/enigma-emulator/) to install via pip.
+
+```
+pip install enigma-emulator
+```
+
+## Example
 
 ```python
 from enigma import Machine
